@@ -78,13 +78,16 @@ public class Robot{
 			xPos -= speed;
 		}
 		
-		xPoints[0] = (int)(((xPos - 25) * Math.cos(angleRad)) - ((yPos + 25) * Math.sin(angleRad)));
-		xPoints[1] = (int)(((xPos) * Math.cos(angleRad)) - ((yPos - 25) * Math.sin(angleRad)));
-		xPoints[2] = (int)(((xPos + 25) * Math.cos(angleRad)) - ((yPos + 25) * Math.sin(angleRad)));
+		double sin = Math.sin(angleRad);
+		double cos = Math.sin(angleRad);
 		
-		yPoints[0] = (int)(((xPos - 25) * Math.sin(angleRad)) + ((yPos + 25) * Math.cos(angleRad)));
-		yPoints[1] = (int)(((xPos) * Math.sin(angleRad)) + ((yPos - 25) * Math.cos(angleRad)));
-		yPoints[2] = (int)(((xPos + 25) * Math.sin(angleRad)) + ((yPos + 25) * Math.cos(angleRad)));
+		xPoints[0] = (int)(((xPos - 25) * cos) - ((yPos + 25) * sin));
+		xPoints[1] = (int)(((xPos) * cos) - ((yPos - 25) * sin));
+		xPoints[2] = (int)(((xPos + 25) * cos) - ((yPos + 25) * sin));
+		
+		yPoints[0] = (int)(((xPos - 25) * sin) - ((yPos + 25) * cos));
+		yPoints[1] = (int)(((xPos) * sin) - ((yPos - 25) * cos));
+		yPoints[2] = (int)(((xPos + 25) * sin) - ((yPos + 25) * cos));
 	}
 	
 	public void move(int distance)
