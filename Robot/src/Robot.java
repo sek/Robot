@@ -1,23 +1,25 @@
 import java.awt.Color;
-import java.awt.Graphics;
+import java.awt.Graphics2D;
 
 public class Robot{
 	
-	private static final int WIDTH = 760;
-	private static final int HEIGHT = 540;
-	
-	private int xPos;
-	private int yPos;
+	private static final int WIDTH = 1080;
+	private static final int HEIGHT = 760;
+
+	private float xPos;
+	private float yPos;
 	private int angle;
+	private int newAngle;
 	private int speed;
 	private int moveDistance;
+	private int distanceMoved;
 	
-	private double angleRad;
+	private float lastX;
+	private float lastY;
 	
 	private long startTime;
-	
-	private int xPoints[] = {0, 0, 0};
-	private int yPoints[] = {0, 0, 0};
+
+	private RobotImage rImage;
 	
 	private static int count = 0;
 	
@@ -33,16 +35,14 @@ public class Robot{
 		yPos = y;
 		angle = 0;
 		speed = 1;
-		
+		newAngle = 0;
+		moveDistance = 0;
+		distanceMoved = 0;
+		lastX = xPos;
+		lastY = yPos;
 		startTime = 0;
 		
-		xPoints[0] = xPos - 25;
-		xPoints[1] = xPos;
-		xPoints[2] = xPos + 25;
-		
-		yPoints[0] = yPos + 25;
-		yPoints[1] = yPos - 25;
-		yPoints[2] = yPos + 25;
+		rImage = new RobotImage((int)xPos, (int)yPos);
 		
 		if(count == 0)
 		{
@@ -53,12 +53,11 @@ public class Robot{
 		window.addRobot(this);
 	}
 	
-	public void draw(Graphics g)
+	public void draw(Graphics2D g)
 	{
-		g.setColor(Color.BLACK);
-		g.fillPolygon(xPoints, yPoints, 3);
-		g.setColor(Color.RED);
-		g.fillOval(xPos - 2, yPos - 2, 4, 4);
+		rImage.draw(g);
+		g.setColor(Color.BLUE);
+		g.fillOval((int)xPos - 2, (int)yPos - 2, 4, 4);
 	}
 	
 	public void setLocation(int x, int y)
@@ -69,34 +68,57 @@ public class Robot{
 	
 	public void update()
 	{
-		if(xPos < moveDistance)
+		if(distanceMoved < moveDistance)
 		{
-			xPos += speed;
+			float cos = (float)Math.cos(Math.toRadians(-angle));
+			float sin = (float)Math.sin(Math.toRadians(-angle));
+			float nextX = speed * sin;
+			float nextY = speed * cos;
+			xPos -= nextX;
+			yPos -= nextY;
+			
+			distanceMoved += speed;
 		}
-		else if(xPos > moveDistance)
+		else if(distanceMoved > moveDistance)
 		{
-			xPos -= speed;
+			float cos = (float)Math.cos(Math.toRadians(-angle));
+			float sin = (float)Math.sin(Math.toRadians(-angle));
+			float nextX = speed * sin;
+			float nextY = speed * cos;
+			xPos += nextX;
+			yPos += nextY;
+			
+			distanceMoved -= speed;
 		}
 		
-		double sin = Math.sin(angleRad);
-		double cos = Math.sin(angleRad);
+		if(angle < newAngle)
+		{
+			rImage.rotate(-1);
+			angle++;
+			
+			
+		}
+		else if(angle > newAngle)
+		{		
+			rImage.rotate(1);
+			angle--;
+		}
 		
-		xPoints[0] = (int)(((xPos - 25) * cos) - ((yPos + 25) * sin));
-		xPoints[1] = (int)(((xPos) * cos) - ((yPos - 25) * sin));
-		xPoints[2] = (int)(((xPos + 25) * cos) - ((yPos + 25) * sin));
+		lastX = xPos;
+		lastY = yPos;
 		
-		yPoints[0] = (int)(((xPos - 25) * sin) - ((yPos + 25) * cos));
-		yPoints[1] = (int)(((xPos) * sin) - ((yPos - 25) * cos));
-		yPoints[2] = (int)(((xPos + 25) * sin) - ((yPos + 25) * cos));
+		rImage.x = (int)xPos;
+		rImage.y = (int)yPos;
 	}
 	
 	public void move(int distance)
 	{
-		moveDistance = xPos + distance;
+		distanceMoved = 0;
+		moveDistance = distance;
 		
 		startTime = System.currentTimeMillis();
 		
-		while(xPos != moveDistance)
+		while(distanceMoved != moveDistance)
 		{
 			if((System.currentTimeMillis() - startTime) > (1000 / 60))
 			{
@@ -108,7 +130,38 @@ public class Robot{
 	
 	public void turn(int degrees)
 	{
-		angle = degrees;
-		angleRad = Math.toRadians(angle);
+		newAngle = angle + degrees;
+		
+		startTime = System.currentTimeMillis();
+		
+		while(angle != newAngle)
+		{
+			if((System.currentTimeMillis() - startTime) > (1000 / (60 * speed)))
+			{
+				window.update(this);
+				startTime = System.currentTimeMillis();
+			}
+		}
+	}
+	
+	public int getSpeed()
+	{
+		return speed;
+	}
+	
+	public void setSpeed(int s)
+	{
+		if(s > 10)
+		{
+			speed = 10;
+		}
+		else if(s < 1)
+		{
+			speed = 1;
+		}
+		else
+		{
+			speed = s;
+		}
 	}
 }
