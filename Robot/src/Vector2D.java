@@ -1,7 +1,7 @@
 
 public class Vector2D {
-	public float x;
-	public float y;
+	protected float x;
+	protected float y;
 	
 	public Vector2D()
 	{
