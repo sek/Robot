@@ -10,8 +10,6 @@ public class Robot{
 	private static final int WIDTH = 1080;
 	private static final int HEIGHT = 760;
 
-	private boolean isVisible;
-	
 	private float xPos;
 	private float yPos;
 	private int angle;
@@ -43,8 +41,6 @@ public class Robot{
 		distanceMoved = 0;
 		startTime = 0;
 		
-		isVisible = true;
-		
 		rImage = new RobotImage((int)xPos, (int)yPos);
 		
 		if(count == 0)
@@ -59,26 +55,13 @@ public class Robot{
 	
 	public void draw(Graphics2D g)
 	{
-		if(isVisible)
-		{
-			rImage.draw(g);
-		}
+		rImage.draw(g);
 	}
 	
 	public void setLocation(int x, int y)
 	{
 		xPos = x;
 		yPos = y;
-	}
-	
-	public void show()
-	{
-		isVisible = true;
-	}
-
-	public void hide()
-	{
-		isVisible = false;
 	}
 	
 	public void update()

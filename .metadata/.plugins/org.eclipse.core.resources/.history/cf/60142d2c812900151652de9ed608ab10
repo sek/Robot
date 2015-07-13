@@ -5,7 +5,6 @@ public class MainComponent {
 		rob.setSpeed(3);
 		rob.turn(-90);
 		rob.move(500);
-		rob.hide();
 		rob.turn(180);
 		rob.move(500);
 	}

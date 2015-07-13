@@ -1,3 +1,2 @@
 INDEX VERSION 1.127+D:\Repositories\Robot\.metadata\.plugins\org.eclipse.jdt.core
-356962258.index
 2573309375.index
