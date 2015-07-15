@@ -43,6 +43,7 @@ public class RobotWindow extends JPanel{
 	public void addRobot(Robot r)
 	{
 		robotList.add(r);
+		update(r);
 	}
 	
 	public void update(Robot r)

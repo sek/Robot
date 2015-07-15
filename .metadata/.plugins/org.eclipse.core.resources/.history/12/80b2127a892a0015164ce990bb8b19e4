@@ -1,0 +1,19 @@
+
+public class ClearButton extends DrawButton{
+	
+	private DrawGrid dGrid;
+	public ClearButton(int x, int y, int w, int h, DrawGrid dg)
+	{
+		xPos = x;
+		yPos = y;
+		width = w;
+		height = h;
+		dGrid = dg;
+	}
+	
+	@Override
+	public void leftMouseClicked(int x, int y) {
+		dGrid.clear();
+	}
+	
+}

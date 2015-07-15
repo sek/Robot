@@ -1,0 +1,239 @@
+import java.awt.Color;
+import java.awt.Graphics;
+
+public class DrawGrid extends DrawComponent{
+	
+	private boolean drawSquare;
+	
+	private int boxWidth;
+	private int penSize;
+	private int pixWidth;
+	private int pixHeight;
+	
+	Color color;
+	
+	private Pixel[][] pixels;
+	
+	public DrawGrid(){
+		super();
+		
+		xPos = 0;
+		yPos = 0;
+		
+		width = 500;
+		height = 500;
+		boxWidth = 5;
+		penSize = 3;
+		
+		drawSquare = true;
+		
+		pixWidth = (int)((float)width / (float) boxWidth);
+		pixHeight = (int)((float)height / (float) boxWidth);
+		
+		pixels = new Pixel[pixWidth][pixHeight];
+		
+		color = Color.BLACK;
+		
+		for(int i = 0; i < pixHeight; i++)
+		{
+			for(int j = 0; j < pixWidth; j++)
+			{
+				pixels[i][j] = new Pixel(i, j, boxWidth);
+			}
+		}
+	}
+	
+	public void draw(Graphics g)
+	{
+		for(int i = 0; i < pixHeight; i++)
+		{
+			for(int j = 0; j < pixWidth; j++)
+			{
+				pixels[i][j].draw(g);
+			}
+		}
+		
+		g.setColor(Color.BLACK);
+		for(int i = 0; i < width; i++)
+		{
+			for(int j = 0; j < height; j++)
+			{
+				if(j % boxWidth == 0 || i % boxWidth == 0)
+				{
+					g.fillRect(j, i, 1, 1);
+				}
+			}
+		}
+		
+		g.drawLine(501, 0, 501, 500);
+		g.drawLine(0,  501, 501, 501);
+	}
+	
+	public void setImage(Pixel[][] p)
+	{
+		for(int i = 0; i < p.length; i++)
+		{
+			for(int j = 0; j < p.length; j++)
+			{
+				pixels[i][j] = new Pixel(p[i][j]);
+			}
+		}
+	}
+	
+	public void setPenShape(boolean s)
+	{
+		drawSquare = s;
+	}
+	
+	public void setPenSize(int s)
+	{
+		penSize = s;
+	}
+	
+	public void setColor(Color c)
+	{
+		color = c;
+	}
+	
+	public int getPixelWidth()
+	{
+		return pixWidth;
+	}
+	
+	public int getPixelHeight()
+	{
+		return pixHeight;
+	}
+	
+	private boolean checkPixel(int x, int y)
+	{
+		if(x >= 0 && x < 100 &&
+		   y >= 0 && y < 100)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+	
+	public void colorSquare(int x, int y)
+	{
+		int xx = (int)(x / boxWidth);
+		int yy = (int)(y / boxWidth);
+		
+		for(int i = xx - (penSize - 1); i < xx + (penSize); i++)
+		{
+			for(int j = yy - (penSize - 1); j < yy + (penSize); j++)
+			{
+				if(checkPixel(i, j))
+				{
+					if(drawSquare)
+					{
+						pixels[i][j].setColor(color);
+					}
+					else
+					{
+						double d = getDistance(xx, yy, i, j);
+						
+						if(d <= penSize - 1)
+						{
+							pixels[i][j].setColor(color);
+						}
+					}
+				}
+			}
+		}
+	}
+	
+	private double getDistance(int x1, int y1, int x2, int y2)
+	{
+		double d = Math.sqrt(
+							(((x1 - x2) * (x1 - x2)) + ((y1 - y2) * (y1 - y2)))
+				           );
+		return d;
+	}
+	
+	public void colorLine(int x, int y, int lastX, int lastY)
+	{
+		int xDif = x - lastX;
+		int yDif = y - lastY;
+		
+		if(xDif == 0 && yDif > 0)
+		{
+			for(int i = 0; i < yDif; i++)
+			{
+				colorSquare(x, lastY + i);
+			}
+		}
+		else if(xDif == 0 && yDif < 0)
+		{
+			for(int i = 0; i > yDif; i--)
+			{
+				colorSquare(x, lastY + i);
+			}
+		}
+		else if(yDif == 0 && xDif > 0)
+		{
+			for(int i = 0; i < xDif; i++)
+			{
+				colorSquare(lastX + i, y);
+			}
+		}
+		else if(yDif == 0 && xDif < 0)
+		{
+			
+			for(int i = 0; i > xDif; i--)
+			{
+				colorSquare(lastX + i, y);
+			}
+		}
+		else if(xDif > 0)
+		{
+			float slope = (int)yDif / (int)xDif;
+			
+			for(int i = 0; i < xDif; i++)
+			{
+				colorSquare(lastX + i, lastY + (int)(i * slope));
+			}
+		}
+		else if(xDif < 0)
+		{
+			float slope = (int)yDif / (int)xDif;
+			
+			for(int i = 0; i > xDif; i--)
+			{
+				colorSquare(lastX + i, lastY + (int)(i * slope));
+			}
+		}
+	}
+	
+	public Pixel getPixel(int x, int y)
+	{
+		return pixels[x][y];
+	}
+	
+	public void update()
+	{
+		
+	}
+	
+	public void rightMouseClicked(int x, int y)
+	{
+
+	}
+	
+	public void leftMouseClicked(int x, int y)
+	{
+		colorSquare(x, y);
+	}
+	
+	public void rightMouseReleased(int x, int y)
+	{
+	}
+	
+	public void leftMouseReleased(int x, int y)
+	{
+	}
+}

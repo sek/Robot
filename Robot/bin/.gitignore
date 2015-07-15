@@ -1,8 +1,8 @@
-/Image.class
+/Line.class
 /MainComponent.class
+/Pixel.class
 /Robot.class
 /RobotImage.class
 /RobotWindow.class
-/Tester.class
 /Vector2D.class
-/Pixel.class
+/DrawLine.class

@@ -1,0 +1,228 @@
+import java.awt.Color;
+import java.awt.Graphics;
+
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
+import java.util.ArrayList;
+
+import javax.swing.JPanel;
+
+public class AnimationPanel extends JPanel implements MouseMotionListener, MouseListener{	
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	private boolean lmb;
+	
+	private int lastX;
+	private int lastY;
+	
+	ArrayList<DrawComponent> comps;
+	
+	private DrawGrid dg;
+	
+	public AnimationPanel()
+	{
+		super();
+		
+		lmb = false;
+		
+		comps = new ArrayList<DrawComponent>();
+		
+		dg = new DrawGrid();
+		add(dg);
+		
+		setupColorButtons();
+		setupFunctionButtons();
+		
+		addMouseListener(this);
+		addMouseMotionListener(this);
+	}
+	
+	private void setupColorButtons()
+	{
+		ColorButton c;
+		
+		c = new ColorButton(530, 100, 50, 50, Color.BLACK, dg);
+		comps.add(c);
+		
+		c = new ColorButton(580, 100, 50, 50, Color.WHITE, dg);
+		comps.add(c);
+		
+		c = new ColorButton(630, 100, 50, 50, new Color(255, 0, 0), dg);
+		comps.add(c);
+		
+		c = new ColorButton(680, 100, 50, 50, new Color(255, 100, 100), dg);
+		comps.add(c);
+		
+		c = new ColorButton(730, 100, 50, 50, new Color(255, 102, 0), dg);
+		comps.add(c);
+		
+		c = new ColorButton(530, 150, 50, 50, new Color(255, 202, 100), dg);
+		comps.add(c);
+		
+		c = new ColorButton(580, 150, 50, 50, new Color(255, 255, 0), dg);
+		comps.add(c);
+		
+		c = new ColorButton(630, 150, 50, 50, new Color(255, 255, 100), dg);
+		comps.add(c);
+		
+		c = new ColorButton(680, 150, 50, 50, new Color(0, 255, 0), dg);
+		comps.add(c);
+		
+		c = new ColorButton(730, 150, 50, 50, new Color(100, 255, 100), dg);
+		comps.add(c);
+		
+		c = new ColorButton(530, 200, 50, 50, new Color(0, 150, 0), dg);
+		comps.add(c);
+		
+		c = new ColorButton(580, 200, 50, 50, new Color(0, 0, 255), dg);
+		comps.add(c);
+		
+		c = new ColorButton(580, 200, 50, 50, new Color(0, 0, 255), dg);
+		comps.add(c);
+		
+		c = new ColorButton(630, 200, 50, 50, new Color(100, 100, 255), dg);
+		comps.add(c);
+		
+		c = new ColorButton(680, 200, 50, 50, new Color(51, 187, 255), dg);
+		comps.add(c);
+		
+		c = new ColorButton(730, 200, 50, 50, new Color(0, 0, 150), dg);
+		comps.add(c);
+		
+		c = new ColorButton(530, 250, 50, 50, new Color(153, 0, 255), dg);
+		comps.add(c);
+		
+		c = new ColorButton(580, 250, 50, 50, new Color(255, 0, 221), dg);
+		comps.add(c);
+		
+		c = new ColorButton(630, 250, 50, 50, new Color(153, 51, 00), dg);
+		comps.add(c);
+		
+		c = new ColorButton(680, 250, 50, 50, new Color(200, 200, 200), dg);
+		comps.add(c);
+		
+		c = new ColorButton(730, 250, 50, 50, new Color(100, 100, 100), dg);
+		comps.add(c);
+		
+		c= new EraserButton(530, 310, 250, 50, dg);
+		comps.add(c);
+	}
+	
+	private void setupFunctionButtons()
+	{
+		comps.add(new PenSizeButton(530, 30, 50, 50, dg));
+		comps.add(new PenShapeButton(600, 30, 50, 50, dg));
+		comps.add(new SaveButton(530, 370, 120, 70, dg, this));
+		comps.add(new LoadButton(660, 370, 120, 70, dg, this));
+	}
+	
+	public void paint(Graphics g)
+	{
+		for(DrawComponent c : comps)
+		{
+			c.draw(g);
+		}
+	}
+
+	public void update()
+	{
+		for(DrawComponent c : comps)
+		{
+			c.update();
+		}		
+	}
+	
+	public void add(DrawComponent c)
+	{
+		comps.add(c);
+	}
+	
+	public void remove(DrawComponent c)
+	{
+		comps.remove(c);
+	}
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		for(DrawComponent c : comps)
+		{
+			if(e.getButton() == MouseEvent.BUTTON1)
+			{
+				lmb = true;
+				
+				if(c.isClicked(e.getX(), e.getY()))
+				{
+					c.leftMouseClicked(e.getX(), e.getY());
+				}
+			}
+			
+			lastX = e.getX();
+			lastY = e.getY();
+		}
+		
+		update();
+		repaint();
+	}
+	
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		for(DrawComponent c : comps)
+		{
+			if(e.getButton() == MouseEvent.BUTTON1)
+			{
+				lmb = false;
+				
+				if(c.isClicked(e.getX(), e.getY()))
+				{
+					c.leftMouseReleased(e.getX(), e.getY());
+				}
+				
+			}
+		}
+		
+		update();
+		repaint();
+	}
+
+	@Override
+	public void mouseDragged(MouseEvent e) {
+		if(lmb)
+		{
+			dg.colorLine(e.getX(), e.getY(), lastX, lastY);
+			
+			lastX = e.getX();
+			lastY = e.getY();
+		}
+		
+		update();
+		repaint();
+	}
+
+	@Override
+	public void mouseMoved(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+}

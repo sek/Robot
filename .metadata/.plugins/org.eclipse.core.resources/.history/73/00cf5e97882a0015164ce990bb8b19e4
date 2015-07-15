@@ -1,0 +1,54 @@
+import java.awt.Graphics;
+
+public class DrawButton extends DrawComponent{
+	
+	public DrawButton()
+	{
+		this(0,  0,  50,  50);
+	}
+	
+	public DrawButton(int x, int y, int w, int h)
+	{
+		xPos = x;
+		yPos = y;
+		width = w;
+		height = h;
+	}
+
+	@Override
+	public void rightMouseClicked(int x, int y) {
+		
+		
+	}
+
+	@Override
+	public void leftMouseClicked(int x, int y) {
+		
+	}
+
+	@Override
+	public void rightMouseReleased(int x, int y) {
+		
+		
+	}
+
+	@Override
+	public void leftMouseReleased(int x, int y) {
+		
+		
+	}
+
+	@Override
+	public void draw(Graphics g) {
+		//g.setColor(Color.BLACK);
+		//g.drawRect(xPos, yPos, width, height);
+		
+	}
+
+	@Override
+	public void update() {
+		
+		
+	}
+	
+}

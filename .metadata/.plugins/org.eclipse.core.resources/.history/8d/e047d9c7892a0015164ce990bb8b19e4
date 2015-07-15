@@ -1,0 +1,39 @@
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Graphics;
+
+public class ClearButton extends DrawButton{
+	
+	private Font font1;
+	
+	private DrawGrid dGrid;
+	public ClearButton(int x, int y, int w, int h, DrawGrid dg)
+	{
+		xPos = x;
+		yPos = y;
+		width = w;
+		height = h;
+		dGrid = dg;
+		
+		font1 = new Font("Arial", Font.BOLD, 26);
+	}
+	
+	@Override
+	public void leftMouseClicked(int x, int y) {
+		dGrid.clear();
+	}
+	
+	@Override
+	public void draw(Graphics g)
+	{
+		g.setColor(new Color(220, 220, 255));
+		g.fillRect(xPos, yPos, width, height);
+		g.setColor(Color.BLACK);
+		g.drawRect(xPos, yPos, width, height);
+		g.drawRect(xPos + 1, yPos + 1, width - 2, height - 2);
+		g.drawRect(xPos + 2, yPos + 2, width - 4, height - 4);
+		g.setFont(font1);
+		g.drawString("CLEAR", xPos + 14, yPos + 47);
+	}
+	
+}
