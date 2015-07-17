@@ -77,7 +77,7 @@ public class Robot{
 		}
 		
 		count++;
-		changeRobot("test.robi");
+		changeRobot("rover.robi");
 		window.addRobot(this);
 	}
 	
@@ -130,7 +130,10 @@ public class Robot{
 	
 	public void draw(Graphics2D g)
 	{
-		currentLine.draw(g);
+		if(penDown)
+		{
+			currentLine.draw(g);
+		}
 		
 		for(Line l : lines)
 		{
