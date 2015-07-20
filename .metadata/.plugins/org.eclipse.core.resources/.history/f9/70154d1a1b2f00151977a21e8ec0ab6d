@@ -1,0 +1,27 @@
+import javax.swing.JFrame;
+
+public class MainComponent{
+	public final int WIDTH = 800;
+	public final int HEIGHT = 550;
+	
+	JFrame window;
+	
+	AnimationPanel aPan;
+	
+	public static void main(String[] args) {
+		new MainComponent();
+	}
+	
+	public MainComponent(){
+		window = new JFrame("Robot Maker");
+		
+		aPan = new AnimationPanel();
+		aPan.setLayout(null);
+		
+		window.add(aPan);
+		window.setSize(WIDTH, HEIGHT);
+		window.setVisible(true);
+		window.setResizable(false);
+		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	}
+}

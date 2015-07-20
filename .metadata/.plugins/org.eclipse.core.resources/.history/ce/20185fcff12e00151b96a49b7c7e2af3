@@ -1,0 +1,11 @@
+import org.teachingextensions.logo.Tortoise;
+
+public class MainComponent {
+	public static void main(String[] args) 
+	{
+		Tortoise.move(100);
+		
+		
+		
+	}
+}

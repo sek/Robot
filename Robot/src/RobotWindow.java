@@ -7,13 +7,18 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 public class RobotWindow extends JPanel{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private int width;
 	private int height;
 	private JFrame window;
+	private Color winColor;
 	
 	ArrayList<Robot> robotList;
 	
-	public RobotWindow(int w, int h)
+	public RobotWindow(int w, int h, Color c)
 	{
 		width = w;
 		height = h;
@@ -24,14 +29,21 @@ public class RobotWindow extends JPanel{
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		window.setResizable(false);
 		
+		winColor = c;
+		
 		robotList = new ArrayList<Robot>();
+	}
+	
+	public void setWinColor(Color c)
+	{
+		winColor = c;
 	}
 	
 	public void paint(Graphics g)
 	{
 		Graphics2D g2 = (Graphics2D)g;
 		
-		g2.setColor(Color.GRAY);
+		g2.setColor(winColor);
 		g2.fillRect(0, 0, width, height);
 		
 		for(Robot r : robotList)
