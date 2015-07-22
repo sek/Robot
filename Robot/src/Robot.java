@@ -10,7 +10,7 @@ import javax.swing.JPanel;
 
 public class Robot{
 	
-	private static final int WIDTH = 1280;
+	private static final int WIDTH = 1780;
 	private static final int HEIGHT = 1024;
 
 	private boolean isVisible;
@@ -234,8 +234,8 @@ public class Robot{
 		
 		if(penDown)
 		{
-			g.setColor(Color.RED);
-			g.fillOval((int)(xPos - 2), (int)(yPos - 2) , 4, 4);
+			g.setColor(penColor);
+			g.fillOval((int)(xPos - (penSize / 2)), (int)(yPos - (penSize / 2)) , penSize, penSize);
 		}
 	}
 	
@@ -264,17 +264,22 @@ public class Robot{
 		{
 			float cos = (float)Math.cos(Math.toRadians(-angle));
 			float sin = (float)Math.sin(Math.toRadians(-angle));
-			float nextX = speed * sin;
-			float nextY = speed * cos;
-			xPos -= nextX;
-			yPos -= nextY;
+			int difference = moveDistance - distanceMoved;
 			
-			if(moveDistance - distanceMoved < speed)
+			if(difference < speed)
 			{
-				distanceMoved += (moveDistance - distanceMoved);
+				float nextX = difference * sin;
+				float nextY = difference * cos;
+				xPos -= nextX;
+				yPos -= nextY;
+				distanceMoved += difference;
 			}
 			else
 			{
+				float nextX = speed * sin;
+				float nextY = speed * cos;
+				xPos -= nextX;
+				yPos -= nextY;
 				distanceMoved += speed;
 			}
 			
@@ -295,18 +300,23 @@ public class Robot{
 		{
 			float cos = (float)Math.cos(Math.toRadians(-angle));
 			float sin = (float)Math.sin(Math.toRadians(-angle));
-			float nextX = speed * sin;
-			float nextY = speed * cos;
-			xPos += nextX;
-			yPos += nextY;
+			int difference = distanceMoved + moveDistance;
 			
-			if(distanceMoved  - moveDistance < speed)
+			if(difference < speed)
 			{
-				distanceMoved += (distanceMoved - moveDistance);
+				float nextX = difference * sin;
+				float nextY = difference * cos;
+				xPos += nextX;
+				yPos += nextY;
+				distanceMoved -= (distanceMoved - moveDistance);
 			}
 			else
 			{
-				distanceMoved += speed;
+				float nextX = speed * sin;
+				float nextY = speed * cos;
+				xPos += nextX;
+				yPos += nextY;
+				distanceMoved -= speed;
 			}
 			
 			tx = (int)xPos;
@@ -359,7 +369,7 @@ public class Robot{
 		
 		while(distanceMoved != moveDistance)
 		{
-			if((System.currentTimeMillis() - startTime) > (1000 / 60))
+			if((System.currentTimeMillis() - startTime) > (1000 / 60 ))
 			{
 				window.update(this);
 				startTime = System.currentTimeMillis();
@@ -382,7 +392,7 @@ public class Robot{
 		
 		while(angle != newAngle)
 		{
-			if((System.currentTimeMillis() - startTime) > (1000 / (60 * speed)))
+			if((System.currentTimeMillis() - startTime) > (10 - speed))
 			{
 				window.update(this);
 				startTime = System.currentTimeMillis();
@@ -599,179 +609,21 @@ public class Robot{
 	{
 		if(s > 10)
 		{
-			speed = 10;
+			s = 10;
 		}
 		else if(s < 1)
 		{
-			speed = 1;
+			s = 1;
 		}
-		else
-		{
-			speed = s;
-		}
+		
+		speed = s;
+		
 	}
-
-	public boolean isVisible() {
-		return isVisible;
-	}
-
-	public void setVisible(boolean isVisible) {
-		this.isVisible = isVisible;
-	}
-
-	public boolean isPenDown() {
-		return penDown;
-	}
-
-	public void setPenDown(boolean penDown) {
-		this.penDown = penDown;
-	}
-
-	public float getxPos() {
-		return xPos;
-	}
-
-	public void setxPos(float xPos) {
-		this.xPos = xPos;
-	}
-
-	public float getyPos() {
-		return yPos;
-	}
-
-	public void setyPos(float yPos) {
-		this.yPos = yPos;
-	}
-
-	public int getAngle() {
-		return angle;
-	}
-
-	public void setAngle(int angle) {
-		this.angle = angle;
-	}
-
-	public int getNewAngle() {
-		return newAngle;
-	}
-
-	public void setNewAngle(int newAngle) {
-		this.newAngle = newAngle;
-	}
-
-	public int getMoveDistance() {
-		return moveDistance;
-	}
-
-	public void setMoveDistance(int moveDistance) {
-		this.moveDistance = moveDistance;
-	}
-
-	public int getDistanceMoved() {
-		return distanceMoved;
-	}
-
-	public void setDistanceMoved(int distanceMoved) {
-		this.distanceMoved = distanceMoved;
-	}
-
-	public int getSx() {
-		return sx;
-	}
-
-	public void setSx(int sx) {
-		this.sx = sx;
-	}
-
-	public int getSy() {
-		return sy;
-	}
-
-	public void setSy(int sy) {
-		this.sy = sy;
-	}
-
-	public int getTx() {
-		return tx;
-	}
-
-	public void setTx(int tx) {
-		this.tx = tx;
-	}
-
-	public int getTy() {
-		return ty;
-	}
-
-	public void setTy(int ty) {
-		this.ty = ty;
-	}
-
-	public int getPenSize() {
-		return penSize;
-	}
-
-	public void setPenSize(int penSize) {
-		this.penSize = penSize;
-	}
-
-	public Color getPenColor() {
-		return penColor;
-	}
-
-	public void setPenColor(Color penColor) {
-		this.penColor = penColor;
-	}
-
-	public long getStartTime() {
-		return startTime;
-	}
-
-	public void setStartTime(long startTime) {
-		this.startTime = startTime;
-	}
-
-	public RobotImage getrImage() {
-		return rImage;
-	}
-
-	public void setrImage(RobotImage rImage) {
-		this.rImage = rImage;
-	}
-
-	public Line getCurrentLine() {
-		return currentLine;
-	}
-
-	public void setCurrentLine(Line currentLine) {
-		this.currentLine = currentLine;
-	}
-
-	public ArrayList<Line> getLines() {
-		return lines;
-	}
-
-	public void setLines(ArrayList<Line> lines) {
-		this.lines = lines;
-	}
-
-	public static int getCount() {
-		return count;
-	}
-
-	public static void setCount(int count) {
-		Robot.count = count;
-	}
-
-	public static JPanel getBackgroundWindow() {
-		return window;
-	}
-
-	public static int getWidth() {
-		return WIDTH;
-	}
-
-	public static int getHeight() {
-		return HEIGHT;
+	
+	public void setAngle(int a)
+	{
+		int turnAmt = angle - a;
+		rImage.rotate(turnAmt);
+		angle = a;
 	}
 }
