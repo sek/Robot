@@ -92,7 +92,7 @@ public class Robot{
 		changeRobot(fileName);
 		window.addRobot(this);
 	}
-	
+
 	public Robot(int x, int y)
 	{
 		xPos = x;
@@ -229,16 +229,21 @@ public class Robot{
 		isSparkling = false;
 	}
 	
-	 void draw(Graphics2D g)
+	public void setPenColor(Color c)
 	{
-		if(penDown)
-		{
-			currentLine.draw(g);
-		}
-		
+		penColor = c;
+	}
+	
+	public void draw(Graphics2D g)
+	{
 		for(Line l : lines)
 		{
 			l.draw(g);
+		}
+		
+		if(penDown)
+		{
+			currentLine.draw(g);
 		}
 		
 		if(isVisible)
@@ -249,7 +254,10 @@ public class Robot{
 		if(penDown)
 		{
 			g.setColor(penColor);
-			g.fillOval((int)(xPos - (penSize / 2)), (int)(yPos - (penSize / 2)) , penSize, penSize);
+			int pSize = penSize + 4;
+			int newX = (int) (xPos - (pSize / 2));
+			int newY = (int) (yPos - (pSize / 2));
+			g.fillOval(newX, newY, pSize, pSize);
 		}
 		
 		if(isSparkling)
@@ -259,7 +267,6 @@ public class Robot{
 			int yDot = r.nextInt(100) - 50;
 			g.setColor(Color.WHITE);
 			g.fillRect((int)(xPos + xDot), (int)(yPos + yDot), 5, 5);
-			window.update(this);
 		}
 	}
 	
@@ -317,7 +324,10 @@ public class Robot{
 			
 			if(moveDistance == distanceMoved)
 			{
-				lines.add(currentLine);
+				if(penDown)
+				{
+					lines.add(currentLine);
+				}
 			}
 		}
 		else if(distanceMoved > moveDistance)
@@ -600,6 +610,33 @@ public class Robot{
 			JOptionPane.showMessageDialog(null, "There was an error loading your file.");
 			System.out.println("loadDefaultRobot");
 		}
+		
+		window.update(this);
+	}
+	
+	public void loadDefaultRobot(String s)
+	{
+		s += ".robi";
+		
+		try
+		{
+			InputStream is = this.getClass().getResourceAsStream(s);
+			int fileSize = getFileSize(is);
+			is.close();
+			
+			is = this.getClass().getResourceAsStream(s);
+			byte[] buffer = readToBuffer(is, fileSize);
+			is.close();
+			
+			loadPixels(buffer);
+		}
+		catch(Exception e)
+		{
+			JOptionPane.showMessageDialog(null, "There was an error loading your file.");
+			System.out.println("loadDefaultRobot");
+		}
+		
+		window.update(this);
 	}
 	
 	public void changeRobot(String fileName)
@@ -621,6 +658,7 @@ public class Robot{
 		{
 			JOptionPane.showMessageDialog(null, "There was an error loading your file.");
 			System.out.println("changeRobot");
+			loadDefaultRobot();
 		}
 	}
 	
