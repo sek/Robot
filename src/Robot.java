@@ -229,7 +229,7 @@ public class Robot{
 		isSparkling = false;
 	}
 	
-	public void draw(Graphics2D g)
+	 void draw(Graphics2D g)
 	{
 		if(penDown)
 		{
