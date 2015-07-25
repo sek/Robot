@@ -232,7 +232,6 @@ public class Robot{
 	
 	public void setPenColor(Color c)
 	{
-		penColor = c;
 	}
 	
 	public void draw(Graphics2D g)
