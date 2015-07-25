@@ -119,7 +119,7 @@ public class Robot{
 		if(penDown)//draws over robot
 		{
 			g.setColor(penColor);
-			int pSize = penSize + 4;
+			int pSize = penSize + 3;
 			int newX = (int) (xPos - (pSize / 2));
 			int newY = (int) (yPos - (pSize / 2));
 			g.fillOval(newX, newY, pSize, pSize);
