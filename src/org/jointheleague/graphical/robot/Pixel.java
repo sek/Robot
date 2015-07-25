@@ -1,3 +1,4 @@
+package org.jointheleague.graphical.robot;
 import java.awt.Color;
 
 public class Pixel extends Vector2D {

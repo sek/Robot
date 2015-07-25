@@ -1,3 +1,4 @@
+package org.jointheleague.graphical.robot;
 public class Vector2D {
 	protected float x;
 	protected float y;
