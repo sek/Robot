@@ -1,6 +1,5 @@
 package org.jointheleague.graphical.robot;
 
-//7/24/15
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.io.FileInputStream;
@@ -202,15 +201,6 @@ public class Robot{
 	
 	public void setPenWidth(int size)
 	{
-		if(size < 0)
-		{
-			size = 0;
-		}
-		else if(size > 10)
-		{
-			size = 10;
-		}
-		
 		penSize = size;
 	}
 	
@@ -228,10 +218,6 @@ public class Robot{
 	public void unSparkle()
 	{
 		isSparkling = false;
-	}
-	
-	public void setPenColor(Color c)
-	{
 	}
 	
 	public void draw(Graphics2D g)
@@ -662,11 +648,6 @@ public class Robot{
 		}
 	}
 	
-	public int getSpeed()
-	{
-		return speed;
-	}
-	
 	public void setSpeed(int s)
 	{
 		if(s > 10)
@@ -687,5 +668,10 @@ public class Robot{
 		int turnAmt = angle - a;
 		rImage.rotate(turnAmt);
 		angle = a;
+	}
+
+	public void setRandomPenColor() {
+		Random random = new Random();
+		this.penColor = new Color(random.nextInt(255), random.nextInt(255), random.nextInt(255));
 	}
 }
