@@ -338,13 +338,17 @@ public class Robot{
 	public void setX(int newX)
 	{
 		xPos = newX;
+		penUp();
 		update();
+		penDown();
 	}
 	
 	public void setY(int newY)
 	{
 		yPos = newY;
+		penUp();
 		update();
+		penDown();
 	}
 	
 	public void turn(int degrees)
