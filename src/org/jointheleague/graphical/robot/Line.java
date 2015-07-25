@@ -23,7 +23,7 @@ public class Line {
 		startY = sy;
 		endX = tx;
 		endY = ty;
-		lineSize = size + 3;
+		lineSize = size + 1;
 		
 		color = c;
 	}

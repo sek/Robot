@@ -38,6 +38,7 @@ public class RobotWindow extends JPanel{
 	public void setWinColor(Color c)
 	{
 		winColor = c;
+		repaint();
 	}
 	
 	public void paint(Graphics g)
