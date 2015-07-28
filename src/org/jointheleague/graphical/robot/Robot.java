@@ -337,7 +337,6 @@ public class Robot{
 	
 	public void setX(int newX)
 	{
-<<<<<<< HEAD
 		boolean pen = penDown;
 		penUp();
 		
@@ -348,17 +347,10 @@ public class Robot{
 		{
 			penDown();
 		}
-=======
-		xPos = newX;
-		penUp();
-		update();
-		penDown();
->>>>>>> origin/master
 	}
 	
 	public void setY(int newY)
 	{
-<<<<<<< HEAD
 		boolean pen = penDown;
 		penUp();
 		
@@ -370,15 +362,7 @@ public class Robot{
 			penDown();
 		}
 	}
-
-=======
-		yPos = newY;
-		penUp();
-		update();
-		penDown();
-	}
 	
->>>>>>> origin/master
 	public void turn(int degrees)
 	{
 		newAngle = angle + degrees;
