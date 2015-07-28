@@ -335,6 +335,34 @@ public class Robot{
 		window.update(this);
 	}
 	
+	public void setX(int newX)
+	{
+		boolean pen = penDown;
+		penUp();
+		
+		xPos = newX;
+		window.update(this);
+		
+		if(pen)
+		{
+			penDown();
+		}
+	}
+	
+	public void setY(int newY)
+	{
+		boolean pen = penDown;
+		penUp();
+		
+		yPos = newY;
+		window.update(this);
+		
+		if(pen)
+		{
+			penDown();
+		}
+	}
+
 	public void turn(int degrees)
 	{
 		newAngle = angle + degrees;
