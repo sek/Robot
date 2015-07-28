@@ -119,7 +119,7 @@ public class Robot{
 		if(penDown)//draws over robot
 		{
 			g.setColor(penColor);
-			int pSize = penSize + 4;
+			int pSize = penSize + 3;
 			int newX = (int) (xPos - (pSize / 2));
 			int newY = (int) (yPos - (pSize / 2));
 			g.fillOval(newX, newY, pSize, pSize);
@@ -337,6 +337,7 @@ public class Robot{
 	
 	public void setX(int newX)
 	{
+<<<<<<< HEAD
 		boolean pen = penDown;
 		penUp();
 		
@@ -347,10 +348,17 @@ public class Robot{
 		{
 			penDown();
 		}
+=======
+		xPos = newX;
+		penUp();
+		update();
+		penDown();
+>>>>>>> origin/master
 	}
 	
 	public void setY(int newY)
 	{
+<<<<<<< HEAD
 		boolean pen = penDown;
 		penUp();
 		
@@ -363,6 +371,14 @@ public class Robot{
 		}
 	}
 
+=======
+		yPos = newY;
+		penUp();
+		update();
+		penDown();
+	}
+	
+>>>>>>> origin/master
 	public void turn(int degrees)
 	{
 		newAngle = angle + degrees;
