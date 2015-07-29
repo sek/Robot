@@ -18,6 +18,7 @@ public class Robot{
 	private boolean isVisible;
 	private boolean penDown;
 	private boolean isSparkling;
+	private boolean isTurning;
 	
 	private float xPos;
 	private float yPos;
@@ -71,20 +72,21 @@ public class Robot{
 		distanceMoved = 0;
 		startTime = 0;
 		
-		sx = 0;
-		sy = 0;
-		tx = 0;
-		ty = 0;
+		sx = x;
+		sy = y;
+		tx = x;
+		ty = y;
 		penSize = 1;
 		penColor = Color.BLACK;
 		
 		isVisible = true;
 		penDown = false;
+		isTurning = false;
 		isSparkling = false;
 		
 		rImage = new RobotImage((int)xPos, (int)yPos);
 		
-		currentLine = new Line(0, 0, 0, 0, 0, penColor);
+		currentLine = new Line(x, y, x, y, 0, penColor);
 		lines = new ArrayList<Line>();
 		
 		if(count == 0)
@@ -190,10 +192,11 @@ public class Robot{
 		{
 			currentLine = new Line(sx, sy, tx, ty, penSize, penColor);
 			
-			if(moveDistance == distanceMoved)
+			if(moveDistance == distanceMoved && !isTurning)
 			{
 				lines.add(currentLine);
 			}
+			System.out.println(lines.size());
 		}
 		
 		if(angle < newAngle)
@@ -209,6 +212,17 @@ public class Robot{
 		
 		rImage.x = (int)xPos;
 		rImage.y = (int)yPos;
+	}
+	
+	public static void main(String[] args) {
+		Robot r = new Robot();
+		r.penDown();
+		r.setPenWidth(10);
+		r.turn(45);
+		r.move(200);
+		r.turn(200);
+		r.move(134);
+		Robot t = new Robot("mini");
 	}
 	
 	public void changeRobot(String fileName)
@@ -270,6 +284,8 @@ public class Robot{
 	
 	public void setPenWidth(int size)
 	{
+		size = Util.clamp(size, 1, 10);
+		
 		penSize = size;
 	}
 	
@@ -371,12 +387,16 @@ public class Robot{
 		
 		while(angle != newAngle)
 		{
+			isTurning = true;
+			
 			if((System.currentTimeMillis() - startTime) > (10 - speed))
 			{
 				window.update(this);
 				startTime = System.currentTimeMillis();
 			}
 		}
+		
+		isTurning = false;
 	}
 	
 	public void penUp()
