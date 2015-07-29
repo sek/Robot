@@ -214,17 +214,6 @@ public class Robot{
 		rImage.y = (int)yPos;
 	}
 	
-	public static void main(String[] args) {
-		Robot r = new Robot();
-		r.penDown();
-		r.setPenWidth(10);
-		r.turn(45);
-		r.move(200);
-		r.turn(200);
-		r.move(134);
-		Robot t = new Robot("mini");
-	}
-	
 	public void changeRobot(String fileName)
 	{
 		fileName += ".robi";
