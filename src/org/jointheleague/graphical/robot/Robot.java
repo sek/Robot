@@ -196,7 +196,6 @@ public class Robot{
 			{
 				lines.add(currentLine);
 			}
-			System.out.println(lines.size());
 		}
 		
 		if(angle < newAngle)

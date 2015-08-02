@@ -2,8 +2,11 @@ package org.jointheleague.graphical.robot;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.util.ArrayList;
 
+import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -14,10 +17,19 @@ public class RobotWindow extends JPanel{
 	private static final long serialVersionUID = 1L;
 	private int width;
 	private int height;
+	
 	private JFrame window;
+	
 	private Color winColor;
 	
-	ArrayList<Robot> robotList;
+	private ArrayList<Robot> robotList;
+	
+	//image fields
+	private static final int IMG_WIDTH = 723;
+	private static final int IMG_HEIGHT = 362;
+	private static int imgX;
+	private static int imgY;
+	private static BufferedImage leagueLogo;
 	
 	public RobotWindow(int w, int h, Color c)
 	{
@@ -30,9 +42,19 @@ public class RobotWindow extends JPanel{
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		window.setResizable(false);
 		
+		robotList = new ArrayList<Robot>();
+		
 		winColor = c;
 		
-		robotList = new ArrayList<Robot>();
+		imgX = (width / 2) - (IMG_WIDTH / 2);
+		imgY = (height / 2) - (IMG_HEIGHT / 2);
+		
+		try {
+			leagueLogo = ImageIO.read(this.getClass().getResourceAsStream("league_logo.png"));
+		} catch (IOException e) 
+		{
+			System.err.println("Cannot load background image.");
+		}
 	}
 	
 	public void setWinColor(Color c)
@@ -40,13 +62,14 @@ public class RobotWindow extends JPanel{
 		winColor = c;
 		repaint();
 	}
-	
+
 	public void paint(Graphics g)
 	{
 		Graphics2D g2 = (Graphics2D)g;
 		
 		g2.setColor(winColor);
 		g2.fillRect(0, 0, width, height);
+		g2.drawImage(leagueLogo, imgX, imgY, IMG_WIDTH, IMG_HEIGHT, null);
 		
 		for(int i = 0; i < robotList.size(); i++)
 		{
