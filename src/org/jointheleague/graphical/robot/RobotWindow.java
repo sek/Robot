@@ -25,8 +25,8 @@ public class RobotWindow extends JPanel{
 	private ArrayList<Robot> robotList;
 	
 	//image fields
-	private static final int IMG_WIDTH = 723;
-	private static final int IMG_HEIGHT = 362;
+	private static final int IMG_WIDTH = 1408;
+	private static final int IMG_HEIGHT = 1170;
 	private static int imgX;
 	private static int imgY;
 	private static BufferedImage leagueLogo;
@@ -46,8 +46,8 @@ public class RobotWindow extends JPanel{
 		
 		winColor = c;
 		
-		imgX = (width / 2) - (IMG_WIDTH / 2);
-		imgY = (height / 2) - (IMG_HEIGHT / 2);
+		imgX = ((width / 2) - (IMG_WIDTH / 2)) + 740;
+		imgY = ((height / 2) - (IMG_HEIGHT / 2)) - 410;
 		
 		try {
 			leagueLogo = ImageIO.read(this.getClass().getResourceAsStream("league_logo.png"));
