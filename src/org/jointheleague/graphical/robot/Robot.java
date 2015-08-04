@@ -2,13 +2,8 @@ package org.jointheleague.graphical.robot;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
-import java.io.FileInputStream;
-import java.io.InputStream;
-import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.Random;
-
-import javax.swing.JOptionPane;
 
 public class Robot{
 	
@@ -60,7 +55,7 @@ public class Robot{
 	{
 		this(x, y, "rob");
 	}
-	
+
 	public Robot(int x, int y, String fileName)
 	{
 		xPos = x;
@@ -84,7 +79,7 @@ public class Robot{
 		isTurning = false;
 		isSparkling = false;
 		
-		rImage = new RobotImage((int)xPos, (int)yPos);
+		rImage = new RobotImage((int)xPos, (int)yPos, fileName);
 		
 		currentLine = new Line(x, y, x, y, 0, penColor);
 		lines = new ArrayList<Line>();
@@ -96,7 +91,6 @@ public class Robot{
 		}
 		
 		count++;
-		loadDefaultRobot(fileName);
 		window.addRobot(this);
 	}
 	
@@ -188,11 +182,11 @@ public class Robot{
 		tx = (int)xPos;
 		ty = (int)yPos;
 		
-		if(penDown)
+		if(penDown && !isTurning)
 		{
 			currentLine = new Line(sx, sy, tx, ty, penSize, penColor);
 			
-			if(moveDistance == distanceMoved && !isTurning)
+			if(moveDistance == distanceMoved)
 			{
 				lines.add(currentLine);
 			}
@@ -215,25 +209,8 @@ public class Robot{
 	
 	public void changeRobot(String fileName)
 	{
-		fileName += ".robi";
-		try 
-		{
-			FileInputStream fis =  new FileInputStream(fileName);
-			int fileSize = Util.getFileSize(fis);
-			fis.close();
-			
-			fis = new FileInputStream(fileName);
-			byte[] buffer = Util.readToBuffer(fis, fileSize);
-			fis.close();
-			
-			loadPixels(buffer);
-		} 
-		catch (Exception e) 
-		{
-			JOptionPane.showMessageDialog(null, "There was an error loading your file.");
-			System.out.println("changeRobot");
-			loadDefaultRobot();
-		}
+		rImage.changeRobot(fileName);
+		window.update(this);
 	}
 	
 	public void setPenColor(Color c)
@@ -273,13 +250,24 @@ public class Robot{
 	public void setPenWidth(int size)
 	{
 		size = Util.clamp(size, 1, 10);
-		
 		penSize = size;
 	}
 	
 	public void clear()
 	{
 		lines.clear();
+		window.update(this);
+	}
+	
+	public void miniturize()
+	{
+		rImage.miniturize();
+		window.update(this);
+	}
+	
+	public void expand()
+	{
+		rImage.expand();
 		window.update(this);
 	}
 	
@@ -397,37 +385,6 @@ public class Robot{
 		penDown = true;
 	}
 	
-	public void loadDefaultRobot()
-	{
-		loadDefaultRobot("rob");
-	}
-	
-	private void loadDefaultRobot(String s)
-	{
-		s += ".robi";
-		
-		try
-		{
-			InputStream is = this.getClass().getResourceAsStream(s);
-			int fileSize = Util.getFileSize(is);
-			is.close();
-			
-			is = this.getClass().getResourceAsStream(s);
-			byte[] buffer = Util.readToBuffer(is, fileSize);
-			is.close();
-			
-			loadPixels(buffer);
-		}
-		catch(Exception e)
-		{
-			JOptionPane.showMessageDialog(null, "There was an error loading your file.");
-			System.out.println("loadDefaultRobot");
-			loadDefaultRobot();
-		}
-		
-		window.update(this);
-	}
-	
 	public void setSpeed(int s)
 	{
 		s = Util.clamp(s, 0, 10);
@@ -445,73 +402,5 @@ public class Robot{
 	public void setRandomPenColor() {
 		Random random = new Random();
 		this.penColor = new Color(random.nextInt(255), random.nextInt(255), random.nextInt(255));
-	}
-	
-	private void loadPixels(byte[] buf)
-	{
-		try
-		{
-			int ctr = 0;
-			
-			for(int i = 0; i < buf.length;)
-			{
-				byte[] num = new byte[4];
-				
-				num[0] = buf[i++];
-				num[1] = buf[i++];
-				num[2] = buf[i++];
-				num[3] = buf[i++];
-				
-				int x = ByteBuffer.wrap(num).getInt();
-				
-				num[0] = buf[i++];
-				num[1] = buf[i++];
-				num[2] = buf[i++];
-				num[3] = buf[i++];
-				
-				int y = ByteBuffer.wrap(num).getInt();
-				
-				num[0] = buf[i++];
-				num[1] = buf[i++];
-				num[2] = buf[i++];
-				num[3] = buf[i++];
-				
-				int r = ByteBuffer.wrap(num).getInt();
-				
-				num[0] = buf[i++];
-				num[1] = buf[i++];
-				num[2] = buf[i++];
-				num[3] = buf[i++];
-				
-				int g = ByteBuffer.wrap(num).getInt();
-				
-				num[0] = buf[i++];
-				num[1] = buf[i++];
-				num[2] = buf[i++];
-				num[3] = buf[i++];
-				
-				int b = ByteBuffer.wrap(num).getInt();
-				
-				Color c;
-				
-				if(r == 220 &&
-				   g == 220 &&
-				   b == 220)
-				{
-					c = new Color (0, 0, 0, 0);
-				}
-				else
-				{
-					c = new Color(r, g, b);
-				}
-				
-				rImage.setPixel(ctr++, x, y, c);			
-			}
-		}
-		catch(Exception e)
-		{
-			JOptionPane.showMessageDialog(null, "There was an error loading your file.");
-			System.out.println("loadPixels");
-		}
 	}
 }

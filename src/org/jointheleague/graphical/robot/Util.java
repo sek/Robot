@@ -1,5 +1,6 @@
 package org.jointheleague.graphical.robot;
 
+import java.awt.Color;
 import java.io.FileInputStream;
 import java.io.InputStream;
 
@@ -99,5 +100,33 @@ public class Util {
 		}
 		
 		return ctr;
+	}
+	
+	public static Color getAverageColor(Color[] c)
+	{
+		int rTot = 0;
+		int gTot = 0;
+		int bTot = 0;
+		int total = c.length;
+		
+		for(int i = 0; i < total; i++)
+		{
+			rTot += c[i].getRed();
+			gTot += c[i].getGreen();
+			bTot += c[i].getBlue();
+		}
+		
+		rTot /= total;
+		gTot /= total;
+		bTot /= total;
+		
+		if(rTot == 0 && gTot == 0 && bTot == 0)
+		{
+			return new Color(0, 0, 0, 0);
+		}
+		else
+		{
+			return new Color(rTot, gTot, bTot);
+		}
 	}
 }

@@ -21,9 +21,26 @@ public class Pixel extends Vector2D {
 		color = c;
 	}
 	
+	public Pixel(Pixel p)
+	{
+		super(p.getX(), p.getY());
+		color = p.getColor();
+		
+	}
+	
 	public Color getColor()
 	{
 		return color;
+	}
+	
+	public int getX()
+	{
+		return (int) x;
+	}
+	
+	public int getY()
+	{
+		return (int) y;
 	}
 
 }
