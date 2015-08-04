@@ -107,6 +107,7 @@ public class Util {
 		int rTot = 0;
 		int gTot = 0;
 		int bTot = 0;
+		int aTot = 0;
 		int total = c.length;
 		
 		for(int i = 0; i < total; i++)
@@ -114,19 +115,14 @@ public class Util {
 			rTot += c[i].getRed();
 			gTot += c[i].getGreen();
 			bTot += c[i].getBlue();
+			aTot += c[i].getAlpha();
 		}
 		
 		rTot /= total;
 		gTot /= total;
 		bTot /= total;
+		aTot /= total;
 		
-		if(rTot == 0 && gTot == 0 && bTot == 0)
-		{
-			return new Color(0, 0, 0, 0);
-		}
-		else
-		{
-			return new Color(rTot, gTot, bTot);
-		}
+		return new Color(rTot, gTot, bTot, aTot);	
 	}
 }

@@ -2,10 +2,14 @@ package org.jointheleague.graphical.robot;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class Robot{
+import javax.swing.Timer;
+
+public class Robot implements ActionListener{
 	
 	private static final int WIDTH = 1780;
 	private static final int HEIGHT = 1024;
@@ -41,6 +45,7 @@ public class Robot{
 	private static int count = 0;
 	private static Color windowColor;
 	private static RobotWindow window;
+	private static Timer staticAnimationTimer;
 	
 	public Robot(){
 		this(WIDTH / 2, HEIGHT / 2);
@@ -55,7 +60,18 @@ public class Robot{
 	{
 		this(x, y, "rob");
 	}
-
+	
+	public static void main(String[] args) {
+		Robot r= new Robot();
+		r.sparkle();
+		r.move(100);
+		r.turn(90);
+		
+		Robot t = new Robot(250, 250, "vic");
+		t.sparkle();
+		
+	}
+	
 	public Robot(int x, int y, String fileName)
 	{
 		xPos = x;
@@ -88,6 +104,7 @@ public class Robot{
 		{
 			windowColor = new Color(220, 220, 220);
 			window = new RobotWindow(WIDTH, HEIGHT, windowColor);
+			staticAnimationTimer = new Timer(1000 / 30, this);
 		}
 		
 		count++;
@@ -295,6 +312,8 @@ public class Robot{
 
 	public void move(int distance)
 	{
+		staticAnimationTimer.stop();
+		
 		distanceMoved = 0;
 		moveDistance = distance;
 		
@@ -318,6 +337,8 @@ public class Robot{
 				startTime = System.currentTimeMillis();
 			}
 		}
+		
+		staticAnimationTimer.start();
 	}
 	
 	public void moveTo(int x, int y)
@@ -357,6 +378,8 @@ public class Robot{
 	
 	public void turn(int degrees)
 	{
+		staticAnimationTimer.stop();
+		
 		newAngle = angle + degrees;
 		
 		startTime = System.currentTimeMillis();
@@ -373,6 +396,7 @@ public class Robot{
 		}
 		
 		isTurning = false;
+		staticAnimationTimer.start();
 	}
 	
 	public void penUp()
@@ -402,5 +426,9 @@ public class Robot{
 	public void setRandomPenColor() {
 		Random random = new Random();
 		this.penColor = new Color(random.nextInt(255), random.nextInt(255), random.nextInt(255));
+	}
+
+	public void actionPerformed(ActionEvent arg0) {
+		window.update(this);
 	}
 }
