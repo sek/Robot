@@ -69,7 +69,7 @@ public class Robot implements ActionListener{
 		
 		Robot t = new Robot(250, 250, "vic");
 		t.sparkle();
-		
+		r.miniturize();
 	}
 	
 	public Robot(int x, int y, String fileName)
