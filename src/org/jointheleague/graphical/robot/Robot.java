@@ -61,17 +61,6 @@ public class Robot implements ActionListener{
 		this(x, y, "rob");
 	}
 	
-	public static void main(String[] args) {
-		Robot r= new Robot();
-		r.sparkle();
-		r.move(100);
-		r.turn(90);
-		
-		Robot t = new Robot(250, 250, "vic");
-		t.sparkle();
-		r.miniturize();
-	}
-	
 	public Robot(int x, int y, String fileName)
 	{
 		xPos = x;
