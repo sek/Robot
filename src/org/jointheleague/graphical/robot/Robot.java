@@ -61,6 +61,10 @@ public class Robot implements ActionListener{
 		this(x, y, "rob");
 	}
 	
+	public static void main(String[] args) {
+		Robot r = new Robot("formersecretaryofstatecondoleezzarice");
+	}
+	
 	public Robot(int x, int y, String fileName)
 	{
 		xPos = x;
