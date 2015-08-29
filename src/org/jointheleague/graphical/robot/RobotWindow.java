@@ -37,8 +37,6 @@ public class RobotWindow extends JPanel implements Runnable {
     {
         winColor = c;
         robotList = new ArrayList<Robot>();
-
-        run();
     }
 
     public void run() {

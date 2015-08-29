@@ -344,7 +344,7 @@ public class Robot implements ActionListener {
     public void setRandomPenColor()
     {
         Random random = new Random();
-        this.penColor = new Color(random.nextInt(255), random.nextInt(255), random.nextInt(255));
+        this.penColor = new Color(random.nextInt(256), random.nextInt(256), random.nextInt(256));
     }
 
     public void actionPerformed(ActionEvent arg0)
