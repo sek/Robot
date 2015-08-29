@@ -1,7 +1,10 @@
 package org.jointheleague.graphical.robot;
+
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -9,84 +12,95 @@ import java.util.ArrayList;
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
+import javax.swing.Timer;
 
-public class RobotWindow extends JPanel{
-	/**
+public class RobotWindow extends JPanel implements Runnable {
+    /**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
-	private int width;
-	private int height;
-	
-	private JFrame window;
-	
-	private Color winColor;
-	
-	private ArrayList<Robot> robotList;
-	
-	//image fields
-	private static final int IMG_WIDTH = 1408;
-	private static final int IMG_HEIGHT = 1170;
-	private static int imgX;
-	private static int imgY;
-	private static BufferedImage leagueLogo;
-	
-	public RobotWindow(int w, int h, Color c)
-	{
-		width = w;
-		height = h;
-		window = new JFrame();
-		window.add(this);
-		window.setSize(w, h);
-		window.setVisible(true);
-		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		window.setResizable(false);
-		
-		robotList = new ArrayList<Robot>();
-		
-		winColor = c;
-		
-		imgX = ((width / 2) - (IMG_WIDTH / 2)) + 740;
-		imgY = ((height / 2) - (IMG_HEIGHT / 2)) - 410;
-		
-		try {
-			leagueLogo = ImageIO.read(this.getClass().getResourceAsStream("league_logo.png"));
-		} catch (IOException e) 
-		{
-			System.err.println("Cannot load background image.");
-		}
-	}
-	
-	public void setWinColor(Color c)
-	{
-		winColor = c;
-		repaint();
-	}
+    private static final long  serialVersionUID     = 1L;
+    private static final Color DEFAULT_WINDOW_COLOR = new Color(220, 220, 220);
+    // public static final int WIDTH = 1780;
+    // public static final int HEIGHT = 1024;
+    private static int         MARGIN               = 10;
+    private static RobotWindow INSTANCE;
 
-	public void paint(Graphics g)
-	{
-		Graphics2D g2 = (Graphics2D)g;
-		
-		g2.setColor(winColor);
-		g2.fillRect(0, 0, width, height);
-		g2.drawImage(leagueLogo, imgX, imgY, IMG_WIDTH, IMG_HEIGHT, null);
-		
-		for(int i = 0; i < robotList.size(); i++)
-		{
-			Robot r = robotList.get(i);
-			r.draw(g2);
-		}
-	}
-	
-	public void addRobot(Robot r)
-	{
-		robotList.add(r);
-		update(r);
-	}
-	
-	public void update(Robot r)
-	{
-		r.update();
-		repaint();
-	}
+    private Color              winColor;
+
+    private ArrayList<Robot>   robotList;
+    private Timer              ticker;
+
+    private BufferedImage      leagueLogo;
+
+    private RobotWindow(Color c)
+    {
+        winColor = c;
+        robotList = new ArrayList<Robot>();
+
+        run();
+    }
+
+    public void run() {
+        JFrame frame = new JFrame();
+        frame.add(this);
+        frame.setSize(Toolkit.getDefaultToolkit().getScreenSize());
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setResizable(false);
+
+        try {
+            leagueLogo = ImageIO.read(this.getClass().getResourceAsStream("league_logo.png"));
+        } catch (IOException e)
+        {
+            System.err.println("Cannot load background image.");
+        }
+        frame.setVisible(true);
+    }
+
+    public void setWinColor(Color c)
+    {
+        winColor = c;
+        repaint();
+    }
+
+    public void paintComponent(Graphics g)
+    {
+        Graphics2D g2 = (Graphics2D) g;
+
+        g2.setColor(winColor);
+        g2.fillRect(0, 0, getWidth(), getHeight());
+        int imgX = getWidth() - leagueLogo.getWidth() - MARGIN;
+        int imgY = MARGIN;
+        g2.drawImage(leagueLogo, imgX, imgY, null);
+
+        for (Robot r : robotList)
+        {
+            r.draw(g2);
+        }
+    }
+
+    public void addRobot(final Robot r)
+    {
+        SwingUtilities.invokeLater(new Runnable() {
+            
+            public void run() {
+                robotList.add(r);
+            }
+        });
+        if (ticker == null) {
+            ticker = new Timer(1000 / 30, r);
+            ticker.start();
+        } else {
+            ticker.addActionListener(r);
+        }
+    }
+
+    public static synchronized RobotWindow getInstance() {
+        if (INSTANCE == null) {
+            INSTANCE = new RobotWindow(DEFAULT_WINDOW_COLOR);
+            SwingUtilities.invokeLater(INSTANCE);
+        }
+        return INSTANCE;
+    }
+
 }
