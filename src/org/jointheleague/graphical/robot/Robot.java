@@ -44,7 +44,7 @@ public class Robot implements ActionListener {
         TICK
     }
 
-    private BlockingQueue<TimeQuantum> time = new ArrayBlockingQueue<>(1);
+    private BlockingQueue<TimeQuantum> leakyBucket = new ArrayBlockingQueue<>(1);
 
     public Robot() {
 
@@ -240,7 +240,7 @@ public class Robot implements ActionListener {
         try
         {
             while (sgn * (distanceMoved - distance) < 0) {
-                time.take(); // will block until a TimeQuatum.TICK becomes
+                leakyBucket.take(); // will block until a TimeQuatum.TICK becomes
                              // available
                 distanceMoved += sgn * speed;
                 if (sgn * (distanceMoved - distance) > 0)
@@ -275,7 +275,7 @@ public class Robot implements ActionListener {
         {
             while (sgn * (degreesTurned - degrees) < 0)
             {
-                time.take(); // will block until a TimeQuatum.TICK becomes
+                leakyBucket.take(); // will block until a TimeQuatum.TICK becomes
                              // available
                 degreesTurned += sgn * speed;
                 if (sgn * (degreesTurned - degrees) > 0)
@@ -333,7 +333,7 @@ public class Robot implements ActionListener {
 
     public void actionPerformed(ActionEvent arg0)
     {
-        time.offer(TimeQuantum.TICK);
+        leakyBucket.offer(TimeQuantum.TICK);
         window.repaint();
     }
 }
