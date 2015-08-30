@@ -1,7 +1,6 @@
 package org.jointheleague.graphical.robot;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Toolkit;
@@ -44,7 +43,7 @@ public class RobotWindow extends JPanel implements Runnable {
         frame.add(this);
         frame.setSize(Toolkit.getDefaultToolkit().getScreenSize());
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setResizable(false);
+        frame.setResizable(true);
 
         try {
             leagueLogo = ImageIO.read(this.getClass().getResourceAsStream("league_logo.png"));

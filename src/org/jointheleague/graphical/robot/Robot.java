@@ -6,9 +6,10 @@ import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.AffineTransform;
-import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.BlockingQueue;
 
 import javax.swing.SwingUtilities;
 
@@ -38,7 +39,12 @@ public class Robot implements ActionListener {
 
     private RobotWindow      window;
 
-    private boolean          goAhead;
+    private enum TimeQuantum
+    {
+        TICK
+    }
+
+    private BlockingQueue<TimeQuantum> time = new ArrayBlockingQueue<>(1);
 
     public Robot() {
 
@@ -85,9 +91,8 @@ public class Robot implements ActionListener {
 
     public void draw(Graphics2D g)
     {
-        for (int i = 0; i < lines.size(); i++)
+        for (Line l : lines)
         {
-            Line l = lines.get(i);
             l.draw(g);
         }
 
@@ -118,8 +123,8 @@ public class Robot implements ActionListener {
         if (isSparkling)
         {
             Random r = new Random();
-            int xDot = r.nextInt(100) - 50;
-            int yDot = r.nextInt(100) - 50;
+            int xDot = r.nextInt(MAXI_IMAGE_SIZE) - MAXI_IMAGE_SIZE / 2;
+            int yDot = r.nextInt(MAXI_IMAGE_SIZE) - MAXI_IMAGE_SIZE / 2;
             g.setColor(Color.WHITE);
             g.fillRect((int) (xPos + xDot), (int) (yPos + yDot), 5, 5);
         }
@@ -131,7 +136,6 @@ public class Robot implements ActionListener {
         maxiImage = image.getScaledInstance(MAXI_IMAGE_SIZE, MAXI_IMAGE_SIZE, Image.SCALE_SMOOTH);
         miniImage = image.getScaledInstance(MINI_IMAGE_SIZE, MINI_IMAGE_SIZE, Image.SCALE_SMOOTH);
         image = isMini ? miniImage : maxiImage;
-        window.repaint();
     }
 
     public void setPenColor(Color c)
@@ -169,25 +173,24 @@ public class Robot implements ActionListener {
 
     private void addLine(final Line line) {
         SwingUtilities.invokeLater(new Runnable() {
-            
+
             @Override
             public void run() {
                 lines.add(line);
-                
+
             }
         });
     }
-    
+
     public void clear()
     {
-        SwingUtilities.invokeLater(new Runnable(){
+        SwingUtilities.invokeLater(new Runnable() {
 
             @Override
             public void run() {
                 lines.clear();
-                window.repaint();
             }
-            
+
         });
     }
 
@@ -195,14 +198,12 @@ public class Robot implements ActionListener {
     {
         image = miniImage;
         isMini = true;
-        window.repaint();
     }
 
     public void expand()
     {
         image = maxiImage;
         isMini = false;
-        window.repaint();
     }
 
     public void sparkle()
@@ -218,19 +219,17 @@ public class Robot implements ActionListener {
     public void show()
     {
         isVisible = true;
-        window.repaint();
     }
 
     public void hide()
     {
         isVisible = false;
-        window.repaint();
     }
 
-    public synchronized void move(int distance)
+    public void move(int distance)
     {
-        float sx = xPos;
-        float sy = yPos;
+        float xPos0 = xPos;
+        float yPos0 = yPos;
         int distanceMoved = 0;
         int sgn = distance < 0 ? -1 : 1;
 
@@ -241,24 +240,20 @@ public class Robot implements ActionListener {
         try
         {
             while (sgn * (distanceMoved - distance) < 0) {
-                goAhead = false;
-                while (!goAhead)
-                {
-                    wait(); // wait for tick
-                }
+                time.take(); // will block until a TimeQuatum.TICK becomes
+                             // available
                 distanceMoved += sgn * speed;
                 if (sgn * (distanceMoved - distance) > 0)
                 {
                     distanceMoved = distance;
                 }
-                xPos = (float) (sx + distanceMoved * sin);
-                yPos = (float) (sy - distanceMoved * cos);
+                xPos = (float) (xPos0 + distanceMoved * sin);
+                yPos = (float) (yPos0 - distanceMoved * cos);
                 if (penDown)
                 {
-                    currentLine = new Line((int) sx, (int) sy, (int) xPos, (int) yPos, penSize,
-                                           penColor);
+                    currentLine = new Line((int) xPos0, (int) yPos0, (int) xPos, (int) yPos,
+                                           penSize, penColor);
                 }
-                window.repaint();
             }
         } catch (InterruptedException e)
         {
@@ -268,57 +263,46 @@ public class Robot implements ActionListener {
             addLine(currentLine);
             currentLine = null;
         }
-        window.repaint();
     }
 
-    public synchronized void turn(int degrees)
+    public void turn(int degrees)
     {
         int degreesTurned = 0;
         int sgn = degrees < 0 ? -1 : 1;
-    
+
         int angle0 = angle;
         try
         {
             while (sgn * (degreesTurned - degrees) < 0)
             {
-                goAhead = false;
-                while (!goAhead)
-                {
-                    wait(); // wait for tick
-                }
+                time.take(); // will block until a TimeQuatum.TICK becomes
+                             // available
                 degreesTurned += sgn * speed;
                 if (sgn * (degreesTurned - degrees) > 0)
                 {
                     degreesTurned = degrees;
                 }
                 angle = angle0 + degreesTurned;
-                window.repaint();
             }
         } catch (InterruptedException e)
         {
         }
-        window.repaint();
     }
 
     public void moveTo(int x, int y)
     {
         xPos = x;
         yPos = y;
-        window.repaint();
     }
 
     public void setX(int newX)
     {
-
         xPos = newX;
-        window.repaint();
-
     }
 
     public void setY(int newY)
     {
         yPos = newY;
-        window.repaint();
     }
 
     public void penUp()
@@ -349,15 +333,7 @@ public class Robot implements ActionListener {
 
     public void actionPerformed(ActionEvent arg0)
     {
-        if (!goAhead)
-        {
-            synchronized (this)
-            {
-                goAhead = true;
-                notifyAll();
-            }
-        } else {
-            window.repaint();
-        }
+        time.offer(TimeQuantum.TICK);
+        window.repaint();
     }
 }
