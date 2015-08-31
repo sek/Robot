@@ -101,33 +101,39 @@ public class Robot implements ActionListener {
             currentLine.draw(g);
         }
 
+        // first cache the standard coordinate system
+        AffineTransform cached = g.getTransform();
+        // align the coordinate system with the center of the robot:
+        g.translate(xPos, yPos); 
+        g.rotate(Math.toRadians(angle)); 
+
         if (isVisible)
         {
-            AffineTransform cached = g.getTransform();
-            g.translate(xPos, yPos);
-            g.rotate(Math.toRadians(angle));
             int offset = -(isMini ? MINI_IMAGE_SIZE : MAXI_IMAGE_SIZE) / 2;
             g.drawImage(image, offset, offset, null);
-            g.setTransform(cached);
         }
 
         if (penDown)// draws over robot
         {
             g.setColor(penColor);
             int pSize = penSize + 3;
-            int newX = (int) (xPos - (pSize / 2));
-            int newY = (int) (yPos - (pSize / 2));
-            g.fillOval(newX, newY, pSize, pSize);
+            g.fillOval(-pSize / 2, -pSize / 2, pSize, pSize);
         }
 
         if (isSparkling)
         {
+            if (isMini)
+            {
+                double s = (double) MINI_IMAGE_SIZE / MAXI_IMAGE_SIZE;
+                g.scale(s, s);
+            }
             Random r = new Random();
-            int xDot = r.nextInt(MAXI_IMAGE_SIZE) - MAXI_IMAGE_SIZE / 2;
-            int yDot = r.nextInt(MAXI_IMAGE_SIZE) - MAXI_IMAGE_SIZE / 2;
+            int xDot = r.nextInt(MAXI_IMAGE_SIZE - 4) - MAXI_IMAGE_SIZE / 2;
+            int yDot = r.nextInt(MAXI_IMAGE_SIZE - 4) - MAXI_IMAGE_SIZE / 2;
             g.setColor(Color.WHITE);
-            g.fillRect((int) (xPos + xDot), (int) (yPos + yDot), 5, 5);
+            g.fillRect(xDot, yDot, 5, 5);
         }
+        g.setTransform(cached); // restore the standard coordinate system
     }
 
     public void changeRobot(String fileName)
@@ -194,7 +200,7 @@ public class Robot implements ActionListener {
         });
     }
 
-    public void miniturize()
+    public void miniaturize()
     {
         image = miniImage;
         isMini = true;
@@ -240,8 +246,9 @@ public class Robot implements ActionListener {
         try
         {
             while (sgn * (distanceMoved - distance) < 0) {
-                leakyBucket.take(); // will block until a TimeQuatum.TICK becomes
-                             // available
+                leakyBucket.take(); // will block until a TimeQuatum.TICK
+                                    // becomes
+                // available
                 distanceMoved += sgn * speed;
                 if (sgn * (distanceMoved - distance) > 0)
                 {
@@ -275,8 +282,9 @@ public class Robot implements ActionListener {
         {
             while (sgn * (degreesTurned - degrees) < 0)
             {
-                leakyBucket.take(); // will block until a TimeQuatum.TICK becomes
-                             // available
+                leakyBucket.take(); // will block until a TimeQuatum.TICK
+                                    // becomes
+                // available
                 degreesTurned += sgn * speed;
                 if (sgn * (degreesTurned - degrees) > 0)
                 {

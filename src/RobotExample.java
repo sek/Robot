@@ -7,8 +7,9 @@ public class RobotExample {
     public static void main(String[] args) throws InterruptedException {
         Robot june = new Robot(200, 200, "june");
         Robot vic = new Robot(125, 125);
+        vic.setWindowColor(0, 0, 0);
         vic.setSpeed(10);
-        vic.miniturize();
+        vic.miniaturize();
         june.expand();
         vic.penDown();
         vic.setPenColor(Color.RED);
@@ -25,9 +26,8 @@ public class RobotExample {
         vic.setSpeed(1);
         vic.move(-75);
         vic.changeRobot("vic");
-        vic.expand();
         june.setSpeed(5);
-        june.turn(-360);
+        june.turn(-315);
         vic.setSpeed(1);
         vic.sparkle();
         june.sparkle();
