@@ -19,23 +19,25 @@ public class RobotWindow extends JPanel
 	/**
 	 * 
 	 */
-	private static final long	serialVersionUID		= 1L;
-	private static final Color	DEFAULT_WINDOW_COLOR	= new Color(220, 220,
-																220);
+	private static final long			serialVersionUID		= 1L;
+	private static final Color			DEFAULT_WINDOW_COLOR	= new Color(
+																		220,
+																		220,
+																		220);
 	// public static final int WIDTH = 1780;
 	// public static final int HEIGHT = 1024;
-	private static int			MARGIN					= 10;
-	private static RobotWindow	INSTANCE				= new RobotWindow(
-																DEFAULT_WINDOW_COLOR);
+	private static final int			MARGIN					= 10;
+	private static final RobotWindow	INSTANCE				= new RobotWindow(
+																		DEFAULT_WINDOW_COLOR);
 
-	private Color				winColor;
+	private Color						winColor;
 
-	private ArrayList<Robot>	robotList;
-	private Timer				ticker;
+	private ArrayList<Robot>			robotList;
+	private Timer						ticker;
 
-	private BufferedImage		leagueLogo;
+	private BufferedImage				leagueLogo;
 
-	private boolean				guiBuilt				= false;
+	private boolean						guiBuilt				= false;
 
 	private RobotWindow(Color c)
 	{
@@ -62,12 +64,12 @@ public class RobotWindow extends JPanel
 		frame.setVisible(true);
 	}
 
-	public static synchronized RobotWindow getInstance()
+	public static RobotWindow getInstance()
 	{
 		return INSTANCE;
 	}
 
-	public void addRobot(final Robot r, final int x, final int y)
+	void addRobot(final Robot r, final int... pos)
 	{
 		SwingUtilities.invokeLater(new Runnable()
 		{
@@ -85,12 +87,12 @@ public class RobotWindow extends JPanel
 					ticker.addActionListener(r);
 				}
 				robotList.add(r);
-				if (x == -1 && y == -1)
+				if (pos.length == 0)
 				{
 					r.moveTo(getWidth() / 2, getHeight() / 2);
 				} else
 				{
-					r.moveTo(x, y);
+					r.moveTo(pos[0], pos[1]);
 				}
 
 			}

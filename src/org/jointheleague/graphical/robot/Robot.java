@@ -19,14 +19,13 @@ public class Robot implements ActionListener
 	private static final int	MAXI_IMAGE_SIZE	= 100;
 	private static final int	MINI_IMAGE_SIZE	= 25;
 	private boolean				isVisible;
-	private boolean				penDown;
-	private boolean				isSparkling;
 
 	private float				xPos;
 	private float				yPos;
 	private int					angle;
 	private int					speed;
 
+	private boolean				penDown;
 	private int					penSize;
 	private Color				penColor;
 
@@ -34,6 +33,8 @@ public class Robot implements ActionListener
 	private Image				miniImage;
 	private Image				image;
 	private boolean				isMini			= false;
+
+	private boolean				isSparkling;
 
 	private ArrayList<Line>		lines;
 	private Line				currentLine;
@@ -48,24 +49,26 @@ public class Robot implements ActionListener
 	private BlockingQueue<TimeQuantum>	leakyBucket	= new ArrayBlockingQueue<>(
 															1);
 
-	public Robot()
-	{
-
-		this(-1, -1, "rob");
-	}
-
-	public Robot(String fileName)
-	{
-		this(-1, -1, fileName);
-	}
-
 	public Robot(int x, int y)
 	{
-		this(x, y, "rob");
+		this("rob", x, y);
 	}
 
-	public Robot(int x, int y, String fileName)
+	/**
+	 * 
+	 * @param fileName
+	 *            the name of the file containing the Robot image, without the
+	 *            "robi" extension.
+	 * @param pos
+	 *            if not empty, has two elements x and y
+	 */
+	public Robot(String fileName, int... pos)
 	{
+		if (!(pos.length == 0 || pos.length == 2))
+		{
+			throw new IllegalArgumentException(
+					"Must include x and y coordinates only or no coordinates");
+		}
 		angle = 0;
 		speed = 1;
 
@@ -86,10 +89,10 @@ public class Robot implements ActionListener
 
 		lines = new ArrayList<Line>();
 		window = RobotWindow.getInstance();
-		window.addRobot(this, x, y);
+		window.addRobot(this, pos);
 	}
 
-	public void draw(Graphics2D g)
+	void draw(Graphics2D g)
 	{
 		for (Line l : lines)
 		{
