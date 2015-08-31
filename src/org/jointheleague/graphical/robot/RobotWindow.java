@@ -82,14 +82,14 @@ public class RobotWindow extends JPanel implements Runnable {
             
             public void run() {
                 robotList.add(r);
+                if (ticker == null) {
+                    ticker = new Timer(1000 / 30, r);
+                    ticker.start();
+                } else {
+                    ticker.addActionListener(r);
+                }
             }
         });
-        if (ticker == null) {
-            ticker = new Timer(1000 / 30, r);
-            ticker.start();
-        } else {
-            ticker.addActionListener(r);
-        }
     }
 
     public static synchronized RobotWindow getInstance() {

@@ -49,13 +49,21 @@ public class Robot implements ActionListener {
     public Robot() {
 
         this(0, 0);
-        moveTo(window.getWidth() / 2, window.getHeight() / 2);
+        try {
+            leakyBucket.take(); // wait for EDT to finish building the window
+            moveTo(window.getWidth() / 2, window.getHeight() / 2);
+        } catch (InterruptedException e) {
+        }
     }
 
     public Robot(String fileName)
     {
         this(0, 0, fileName);
-        moveTo(window.getWidth() / 2, window.getHeight() / 2);
+        try {
+            leakyBucket.take(); // wait for EDT to finish building the window
+            moveTo(window.getWidth() / 2, window.getHeight() / 2);
+        } catch (InterruptedException e) {
+        }
     }
 
     public Robot(int x, int y)
@@ -104,8 +112,8 @@ public class Robot implements ActionListener {
         // first cache the standard coordinate system
         AffineTransform cached = g.getTransform();
         // align the coordinate system with the center of the robot:
-        g.translate(xPos, yPos); 
-        g.rotate(Math.toRadians(angle)); 
+        g.translate(xPos, yPos);
+        g.rotate(Math.toRadians(angle));
 
         if (isVisible)
         {
@@ -247,8 +255,7 @@ public class Robot implements ActionListener {
         {
             while (sgn * (distanceMoved - distance) < 0) {
                 leakyBucket.take(); // will block until a TimeQuatum.TICK
-                                    // becomes
-                // available
+                                    // becomes available
                 distanceMoved += sgn * speed;
                 if (sgn * (distanceMoved - distance) > 0)
                 {
@@ -283,8 +290,7 @@ public class Robot implements ActionListener {
             while (sgn * (degreesTurned - degrees) < 0)
             {
                 leakyBucket.take(); // will block until a TimeQuatum.TICK
-                                    // becomes
-                // available
+                                    // becomes available
                 degreesTurned += sgn * speed;
                 if (sgn * (degreesTurned - degrees) > 0)
                 {
