@@ -14,18 +14,14 @@ import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 
+@SuppressWarnings("serial")
 public class RobotWindow extends JPanel
 {
 	/**
 	 * 
 	 */
-	private static final long			serialVersionUID		= 1L;
 	private static final Color			DEFAULT_WINDOW_COLOR	= new Color(
-																		220,
-																		220,
-																		220);
-	// public static final int WIDTH = 1780;
-	// public static final int HEIGHT = 1024;
+																		0xdcdcdc);
 	private static final int			MARGIN					= 10;
 	private static final RobotWindow	INSTANCE				= new RobotWindow(
 																		DEFAULT_WINDOW_COLOR);
@@ -37,12 +33,20 @@ public class RobotWindow extends JPanel
 
 	private BufferedImage				leagueLogo;
 
-	private boolean						guiBuilt				= false;
+	private boolean						guiHasBeenBuilt				= false;
 
 	private RobotWindow(Color c)
 	{
 		winColor = c;
 		robotList = new ArrayList<Robot>();
+		try
+		{
+			leagueLogo = ImageIO.read(this.getClass().getResourceAsStream(
+					"league_logo.png"));
+		} catch (IOException e)
+		{
+			System.err.println("Cannot load background image.");
+		}
 	}
 
 	private void buildGui()
@@ -52,15 +56,6 @@ public class RobotWindow extends JPanel
 		frame.setSize(Toolkit.getDefaultToolkit().getScreenSize());
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setResizable(true);
-
-		try
-		{
-			leagueLogo = ImageIO.read(this.getClass().getResourceAsStream(
-					"league_logo.png"));
-		} catch (IOException e)
-		{
-			System.err.println("Cannot load background image.");
-		}
 		frame.setVisible(true);
 	}
 
@@ -76,12 +71,12 @@ public class RobotWindow extends JPanel
 
 			public void run()
 			{
-				if (!guiBuilt)
+				if (!guiHasBeenBuilt)
 				{
 					buildGui();
 					ticker = new Timer(1000 / 30, r);
 					ticker.start();
-					guiBuilt = true;
+					guiHasBeenBuilt = true;
 				} else
 				{
 					ticker.addActionListener(r);

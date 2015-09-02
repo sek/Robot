@@ -49,16 +49,16 @@ public class Robot implements ActionListener
 	private BlockingQueue<TimeQuantum>	leakyBucket	= new ArrayBlockingQueue<>(
 															1);
 
-	public Robot(int x, int y)
+	public Robot(int... pos)
 	{
-		this("rob", x, y);
+		this("rob", pos);
 	}
 
 	/**
 	 * 
 	 * @param fileName
 	 *            the name of the file containing the Robot image, without the
-	 *            "robi" extension.
+	 *            ".robi" extension.
 	 * @param pos
 	 *            if not empty, has two elements x and y
 	 */
@@ -67,7 +67,7 @@ public class Robot implements ActionListener
 		if (!(pos.length == 0 || pos.length == 2))
 		{
 			throw new IllegalArgumentException(
-					"Must include x and y coordinates only or no coordinates");
+					"Must include x and y coordinates only, or no coordinates");
 		}
 		angle = 0;
 		speed = 1;
@@ -310,6 +310,11 @@ public class Robot implements ActionListener
 	{
 		xPos = x;
 		yPos = y;
+	}
+
+	public int getY()
+	{
+		return (int) yPos;
 	}
 
 	public void setX(int newX)

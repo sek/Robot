@@ -35,6 +35,8 @@ public class RobotExample
 		june.setSpeed(5);
 		june.turn(-315);
 		vic.expand();
+		Robot rob = new Robot();
+		rob.turn(-720);
 
 	}
 }
