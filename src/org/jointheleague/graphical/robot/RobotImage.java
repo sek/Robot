@@ -1,6 +1,7 @@
 package org.jointheleague.graphical.robot;
 
 import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.io.InputStream;
 import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
@@ -11,7 +12,7 @@ public class RobotImage
 {
 	private static final int	IMG_WIDTH		= 100;
 	private static final int	IMG_HEIGHT		= 100;
-	private static final int	PIXEL_LENGTH	= 20; // in bytes
+	private static final int	PIXEL_LENGTH	= 20;	// in bytes
 
 	public static BufferedImage loadDefaultRobi()
 	{
@@ -20,26 +21,31 @@ public class RobotImage
 
 	public static BufferedImage loadRobi(String s)
 	{
-		s += ".robi";
+		s = String.format("res/%s.robi", s);
 		BufferedImage img = new BufferedImage(IMG_WIDTH, IMG_HEIGHT,
 				BufferedImage.TYPE_INT_ARGB);
 
 		try (InputStream is = RobotImage.class.getResourceAsStream(s))
 		{
-			byte[] buf = new byte[PIXEL_LENGTH * IMG_WIDTH];
+			byte[] buf = new byte[PIXEL_LENGTH * 256];
 			IntBuffer ibuf = ByteBuffer.wrap(buf).asIntBuffer();
-			
+			int offset = 0;
 			int len;
-			while ((len = is.read(buf)) != -1)
+			while ((len = is.read(buf, offset, buf.length - offset)) != -1)
 			{
+				len += offset;
+				offset = len % PIXEL_LENGTH;
+				len -= offset;
 				for (int i = 0; i < len; i += PIXEL_LENGTH)
 				{
 					readPixel(img, ibuf, i / 4);
 				}
-
+				for (int i = 0; i < offset; i++)
+				{
+					buf[i] = buf[len + i];
+				}
 			}
-
-		} catch (Exception e)
+		} catch (IOException e)
 		{
 			JOptionPane.showMessageDialog(null,
 					"There was an error loading your file.");
@@ -53,7 +59,7 @@ public class RobotImage
 	{
 		int x = ibuf.get(pos++);
 		int y = ibuf.get(pos++);
-		
+
 		// Next 3 ints are the r, g, b components of the color
 		int rgb = 0;
 		for (int i = 0; i < 3; i++)

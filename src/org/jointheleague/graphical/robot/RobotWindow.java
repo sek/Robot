@@ -42,7 +42,7 @@ public class RobotWindow extends JPanel
 		try
 		{
 			leagueLogo = ImageIO.read(this.getClass().getResourceAsStream(
-					"league_logo.png"));
+					"res/league_logo.png"));
 		} catch (IOException e)
 		{
 			System.err.println("Cannot load background image.");
