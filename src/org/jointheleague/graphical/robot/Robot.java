@@ -341,7 +341,7 @@ public class Robot implements ActionListener {
 		window.repaint();
 	}
 
-	public void addKeyboardAdaptor() {
-		window.addKeyListener(new KeyboardAdapter(this));
+	public void addKeyboardAdapter(KeyboardAdapter adapter) {
+		window.addKeyListener(adapter);
 	}
 }

@@ -27,6 +27,9 @@ public class RobotImage
 
 		try (InputStream is = RobotImage.class.getResourceAsStream(s))
 		{
+			if (is == null) {
+				throw new IOException("File not found: " + s);
+			}
 			byte[] buf = new byte[PIXEL_LENGTH * 256];
 			IntBuffer ibuf = ByteBuffer.wrap(buf).asIntBuffer();
 			int offset = 0;
