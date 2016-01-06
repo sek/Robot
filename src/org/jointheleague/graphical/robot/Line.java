@@ -2,40 +2,35 @@ package org.jointheleague.graphical.robot;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
-import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Stroke;
 
-public class Line {
+/**
+ * Package private immutable class that represents a line drawn by the Robot. 
+ * 
+ * @author Erik Colban &amp; David Dunn &copy; 2016
+ *
+ */
+final class Line {
 
-    private int   startX;
-    private int   startY;
-    private int   endX;
-    private int   endY;
+	private final int startX;
+	private final int startY;
+	private final int endX;
+	private final int endY;
+	private final int lineSize;
+	private final Color color;
 
-    private int   lineSize;
+	public Line(int startX, int startY, int endX, int endY, int lineSize, Color color) {
+		this.startX = startX;
+		this.startY = startY;
+		this.endX = endX;
+		this.endY = endY;
+		this.lineSize = lineSize + 1;
+		this.color = color;
+	}
 
-    private Color color;
-
-    public Line(int sx, int sy, int tx, int ty, int size, Color c)
-    {
-        startX = sx;
-        startY = sy;
-        endX = tx;
-        endY = ty;
-        lineSize = size + 1;
-
-        color = c;
-    }
-
-    public void draw(Graphics g)
-    {
-        Graphics2D g2 = (Graphics2D) g;
-        Stroke s = g2.getStroke();
-
-        g2.setStroke(new BasicStroke(lineSize));
-        g.setColor(color);
-        g.drawLine(startX, startY, endX, endY);
-        g2.setStroke(s);
-    }
+	public void draw(Graphics2D g2) {
+		g2.setStroke(new BasicStroke(lineSize));
+		g2.setColor(color);
+		g2.drawLine(startX, startY, endX, endY);
+	}
 }

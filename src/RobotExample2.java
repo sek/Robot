@@ -1,3 +1,4 @@
+
 import org.jointheleague.graphical.robot.KeyboardAdapter;
 import org.jointheleague.graphical.robot.Robot;
 
@@ -10,7 +11,5 @@ public class RobotExample2
 		rob.setSpeed(5);
 		rob.miniaturize();
 		rob.addKeyboardAdapter(new KeyboardAdapter(rob));
-		// uses org.jointheleague.graphical.robot.KeyboardAdapter;
-		
 	}
 }

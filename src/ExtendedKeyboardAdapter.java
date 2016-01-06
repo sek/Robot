@@ -1,14 +1,14 @@
+
 import java.awt.event.KeyEvent;
 
+import org.jointheleague.graphical.robot.KeyboardAdapter;
 import org.jointheleague.graphical.robot.Robot;
 
-public class KeyboardAdapter extends org.jointheleague.graphical.robot.KeyboardAdapter {
+public class ExtendedKeyboardAdapter extends KeyboardAdapter {
 
-	private final Robot robot;
 	
-	public KeyboardAdapter(Robot robot) {
+	public ExtendedKeyboardAdapter(Robot robot) {
 		super(robot);
-		this.robot = robot;
 	}
 	
 	

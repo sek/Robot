@@ -1,8 +1,9 @@
+
 import org.jointheleague.graphical.robot.Robot;
 
 import java.awt.Color;
 
-public class RobotExample
+public class RobotExample1
 {
 
 	public static void main(String[] args) throws InterruptedException

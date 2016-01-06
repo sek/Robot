@@ -1,9 +1,9 @@
 package org.jointheleague.graphical.robot;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
@@ -15,11 +15,18 @@ import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 
+/**
+ * Package private singleton class that defines the window in which the Robots
+ * move around.
+ * 
+ * @author David Dunn &amp; Erik Colban &copy; 2016
+ *
+ */
 @SuppressWarnings("serial")
-public class RobotWindow extends JPanel {
-	/**
-	 * 
-	 */
+class RobotWindow extends JPanel {
+
+	private static final int WINDOW_HEIGHT = 600;
+	private static final int WINDOW_WIDTH = 900;
 	private static final Color DEFAULT_WINDOW_COLOR = new Color(0xdcdcdc);
 	private static final int MARGIN = 10;
 	private static final RobotWindow INSTANCE = new RobotWindow(DEFAULT_WINDOW_COLOR);
@@ -45,15 +52,22 @@ public class RobotWindow extends JPanel {
 
 	private void buildGui() {
 		JFrame frame = new JFrame();
+		setPreferredSize(new Dimension(WINDOW_WIDTH, WINDOW_HEIGHT));
 		frame.add(this);
-		frame.setSize(Toolkit.getDefaultToolkit().getScreenSize());
+		// frame.setSize(Toolkit.getDefaultToolkit().getScreenSize());
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setResizable(true);
+		frame.pack();
 		frame.setVisible(true);
 		setFocusable(true);
 	}
 
-	public static RobotWindow getInstance() {
+	/**
+	 * Returns the single instance of the RobotWindow
+	 * 
+	 * @return the single instance
+	 */
+	static RobotWindow getInstance() {
 		return INSTANCE;
 	}
 
@@ -64,7 +78,7 @@ public class RobotWindow extends JPanel {
 				public void run() {
 					if (!guiHasBeenBuilt) {
 						buildGui();
-						ticker = new Timer(1000 / 30, r);
+						ticker = new Timer(Robot.TICK_LENGTH, r);
 						ticker.start();
 						guiHasBeenBuilt = true;
 					} else {
@@ -75,8 +89,17 @@ public class RobotWindow extends JPanel {
 
 			});
 		} catch (InvocationTargetException | InterruptedException e) {
-			
+
 		}
+	}
+
+	/**
+	 * Set the RobotWindow's background Color
+	 * @param c
+	 */
+	void setWinColor(Color c) {
+		winColor = c;
+		repaint();
 	}
 
 	public void paintComponent(Graphics g) {
@@ -91,11 +114,6 @@ public class RobotWindow extends JPanel {
 		for (Robot r : robotList) {
 			r.draw(g2);
 		}
-	}
-
-	public void setWinColor(Color c) {
-		winColor = c;
-		repaint();
 	}
 
 }
