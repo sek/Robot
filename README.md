@@ -29,7 +29,7 @@ More than one robot can be added to the window, which is illustrated by `RobotEx
 
 # Importing the jar file
 
-Download this [jar file](https://github.com/ecolban/Robot/blob/master/jar/Robot.jar) and add it to the build path of your project. This jar file also contains the javadoc in the folder named `doc`.
+Download this [jar file](https://github.com/ecolban/Robot/blob/master/jar/Robot.jar?raw=true) and add it to the build path of your project. This jar file also contains the javadoc in the folder named `doc`.
 
 
 
