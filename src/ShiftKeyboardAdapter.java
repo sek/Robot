@@ -13,60 +13,27 @@ public class ShiftKeyboardAdapter extends KeyboardAdapter {
 	 * 
 	 * @param robot
 	 *            The Robot instance that the KeyboardAdapter controls.
+	 * @param shiftDown
+	 *            if true, the Shift key needs to be depressed to react to arrow
+	 *            keys; if false, the Shift key must not be depressed to react
+	 *            to arrow keys.
 	 */
 	public ShiftKeyboardAdapter(Robot robot, boolean shiftDown) {
 		super(robot);
 		this.shiftDown = shiftDown;
 	}
 
-	/**
-	 * No actions are specified, but that can be overridden in extensions of
-	 * this class.
-	 */
-	@Override
-	public void keyTyped(KeyEvent e) {
-	}
-
 	@Override
 	public void keyPressed(KeyEvent e) {
 		if (e.isShiftDown() == shiftDown) {
-			switch (e.getKeyCode()) {
-			case KeyEvent.VK_UP:
-				setMovingForward(true);
-				break;
-			case KeyEvent.VK_DOWN:
-				setMovingBackward(true);
-				break;
-			case KeyEvent.VK_LEFT:
-				setTurningLeft(true);
-				break;
-			case KeyEvent.VK_RIGHT:
-				setTurningRight(true);
-				break;
-			default:
-			}
+			super.keyPressed(e);
 		}
-
 	}
 
 	@Override
 	public void keyReleased(KeyEvent e) {
 		if (e.isShiftDown() == shiftDown) {
-			switch (e.getKeyCode()) {
-			case KeyEvent.VK_UP:
-				setMovingForward(false);
-				break;
-			case KeyEvent.VK_DOWN:
-				setMovingBackward(false);
-				break;
-			case KeyEvent.VK_LEFT:
-				setTurningLeft(false);
-				break;
-			case KeyEvent.VK_RIGHT:
-				setTurningRight(false);
-				break;
-			default:
-			}
+			super.keyReleased(e);
 		}
 	}
 
