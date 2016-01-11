@@ -5,16 +5,28 @@ import java.awt.event.KeyListener;
 
 /**
  * <p>
- * This class is used to control the robot through key presses. The up, down,
- * left, right arrow keys are used to make the robot advance, go backwards, turn
- * left, and turn right respectively. Further keys may be used to control the
- * robot in other ways by extending this class and overriding the
+ * This class is used to control a robot through key presses. The up, down,
+ * left, and right arrow keys are used to make the robot advance, go backwards,
+ * turn left, and turn right respectively. The {@link KeyEvent}s that are used
+ * to control the Robot and the ways that those KeyEvents control the Robot can
+ * be changed by extending this class and overriding the
  * {@link #keyPressed(KeyEvent)}, {@link #keyReleased(KeyEvent)}, and
  * {@link #keyTyped(KeyEvent)} methods.
  * </p>
  * <p>
- * A KeyboardAdapter controls the Robot from its own thread. It is possible to
- * have more than one Robot controlled by a KeyboardAdapter.
+ * It is possible to add multiple KeyboardAdapters each controlling a different
+ * Robot. To be able to distinguish which {@link KeyEvent}s control which
+ * Robots, the set of KeyEvents that each KeyboardAdapter reacts to should be
+ * distinct. For example, one KeyboardAdapter could react only to KeyEvents
+ * where the Shift key is not depressed, and another could react only to events
+ * where the Shift key is depressed. It is, nevertheless, also possible to have
+ * all KeyboardAdapters react to a same KeyEvent. For example, when the user
+ * types 'm', each KeyboardAdapter could react by miniaturizing the Robot that
+ * it controls.
+ * </p>
+ * <p>
+ * A KeyboardAdapter controls the Robot from its own thread. It is not possible
+ * to have more than one KeyboardAdapter controlling the <em>same</em> Robot.
  * </p>
  * <p>
  * Example of how to use:
@@ -25,7 +37,7 @@ import java.awt.event.KeyListener;
  * public static void main(String[] args) throws InterruptedException
  * {
  *	Robot rob = new Robot();
- *	rob.addKeyboardAdapter(new KeyboardAdapter(rob));
+ *	Robot.addKeyboardAdapter(new KeyboardAdapter(rob));
  * }
  * }
  * </pre>
@@ -49,8 +61,7 @@ public class KeyboardAdapter implements KeyListener, Runnable {
 	 * Constructor.
 	 * 
 	 * @param robot
-	 *            The Robot instance that the KeyboardAdapter is to be attached
-	 *            to.
+	 *            The Robot instance that the KeyboardAdapter controls.
 	 */
 	public KeyboardAdapter(Robot robot) {
 		this.robot = robot;
@@ -79,7 +90,7 @@ public class KeyboardAdapter implements KeyListener, Runnable {
 	}
 
 	/**
-	 * Sets or unsets the Robot in a forward motion.   
+	 * Sets or unsets the Robot in a forward motion.
 	 * 
 	 * @param movingForward
 	 *            true to set the Robot in forward motion, false to cancel
@@ -90,7 +101,7 @@ public class KeyboardAdapter implements KeyListener, Runnable {
 	}
 
 	/**
-	 * Sets or unsets the Robot in a backward motion.  
+	 * Sets or unsets the Robot in a backward motion.
 	 * 
 	 * @param movingBackward
 	 *            true to set the Robot in backward motion, false to cancel
@@ -101,7 +112,7 @@ public class KeyboardAdapter implements KeyListener, Runnable {
 	}
 
 	/**
-	 * Sets or unsets the Robot in a left turning motion.  
+	 * Sets or unsets the Robot in a left turning motion.
 	 * 
 	 * @param turningLeft
 	 *            true to set the Robot in a left turning motion, false to
@@ -112,7 +123,7 @@ public class KeyboardAdapter implements KeyListener, Runnable {
 	}
 
 	/**
-	 * Sets or unsets the Robot in a left turning motion.  
+	 * Sets or unsets the Robot in a left turning motion.
 	 * 
 	 * @param turningRight
 	 *            true to set the Robot in a right turning motion, false to

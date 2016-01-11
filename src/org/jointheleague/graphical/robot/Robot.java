@@ -182,6 +182,42 @@ public class Robot implements ActionListener {
 	}
 
 	/**
+	 * Sets the window's background color
+	 * 
+	 * @param color
+	 *            the new window background color.
+	 */
+	public static void setWindowColor(final Color color) {
+		SwingUtilities.invokeLater(new Runnable() {
+
+			@Override
+			public void run() {
+				RobotWindow.getInstance().setWinColor(color);
+			}
+		});
+	}
+
+	/**
+	 * Sets the window's background color given the red, green and blue
+	 * components of the new color. The components are specified as an integer
+	 * between 0 and 255.
+	 * 
+	 * @param r
+	 *            the red component of the new color
+	 * @param g
+	 *            the green component of the new color
+	 * @param b
+	 *            the blue component of the new color
+	 */
+	public static void setWindowColor(int r, int g, int b) {
+		r = Math.min(Math.max(0, r), 255);
+		g = Math.min(Math.max(0, g), 255);
+		b = Math.min(Math.max(0, b), 255);
+
+		Robot.setWindowColor(new Color(r, g, b));
+	}
+
+	/**
 	 * Draws the Robot
 	 * 
 	 * @param g2
@@ -306,42 +342,6 @@ public class Robot implements ActionListener {
 		int b = rng.nextInt(256);
 		int g = rng.nextInt(256);
 		penColor = new Color(r, g, b);
-	}
-
-	/**
-	 * Sets the window's background color
-	 * 
-	 * @param color
-	 *            the new window background color.
-	 */
-	public void setWindowColor(final Color color) {
-		SwingUtilities.invokeLater(new Runnable() {
-
-			@Override
-			public void run() {
-				window.setWinColor(color);
-			}
-		});
-	}
-
-	/**
-	 * Sets the window's background color given the red, green and blue
-	 * components of the new color. The components are specified as an integer
-	 * between 0 and 255.
-	 * 
-	 * @param r
-	 *            the red component of the new color
-	 * @param g
-	 *            the green component of the new color
-	 * @param b
-	 *            the blue component of the new color
-	 */
-	public void setWindowColor(int r, int g, int b) {
-		r = Math.min(Math.max(0, r), 255);
-		g = Math.min(Math.max(0, g), 255);
-		b = Math.min(Math.max(0, b), 255);
-
-		setWindowColor(new Color(r, g, b));
 	}
 
 	private void addLine(final Line line) {
@@ -605,17 +605,21 @@ public class Robot implements ActionListener {
 	}
 
 	/**
-	 * Adds a KeyboardAdapter to the robot. It is not possible to add more than
-	 * one KeyboardAdapter to a Robot.
+	 * Adds a {@link KeyboardAdapter} to the robot. It is possible to add more
+	 * than one KeyboardAdapter, each controlling a different Robot. If two
+	 * KeyboardAdapters controlling the same Robot are added, the last one added
+	 * <em>replaces</em> the first. 
 	 * 
 	 * @param adapter
 	 *            the KeyboardAdapter
+	 * @see KeyboardAdapter
 	 */
-	public void addKeyboardAdapter(final KeyboardAdapter adapter) {
+	public static void addKeyboardAdapter(final KeyboardAdapter adapter) {
 		SwingUtilities.invokeLater(new Runnable() {
 
 			@Override
 			public void run() {
+				RobotWindow window = RobotWindow.getInstance();
 				KeyListener[] listeners = window.getKeyListeners();
 				for (int i = 0; i < listeners.length; i++) {
 					if (listeners[i] instanceof KeyboardAdapter) {

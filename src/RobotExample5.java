@@ -40,6 +40,7 @@ public class RobotExample5 {
 			june.moveTo(600, 300);
 			waitForVic();
 			firstMovement(june);
+			june.sleep(500);
 			juneIsDone();
 			secondMovement(june);
 			june.turn(180);
@@ -52,7 +53,7 @@ public class RobotExample5 {
 	};
 
 	private void play() {
-		vic.setWindowColor(Color.WHITE);
+		Robot.setWindowColor(Color.WHITE);
 		new Thread(vicsPart).start();
 		new Thread(junesPart ).start();
 	}

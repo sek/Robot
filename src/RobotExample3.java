@@ -20,7 +20,7 @@ public class RobotExample3 {
 		rob = new Robot(image);
 		rob.setSpeed(10);
 		rob.penDown();
-		rob.addKeyboardAdapter(new ExtendedKeyboardAdapter(rob));
+		Robot.addKeyboardAdapter(new ExtendedKeyboardAdapter(rob));
 		
 	}
 	

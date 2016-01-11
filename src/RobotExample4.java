@@ -6,10 +6,11 @@ import org.jointheleague.graphical.robot.Robot;
 public class RobotExample4 {
 	public static void main(String[] args) throws InterruptedException {
 		Robot rob = new Robot();
-		rob.setSpeed(2);
+		rob.miniaturize();
+		rob.setSpeed(5);
 		rob.penDown();
 		rob.setPenColor(Color.GRAY);
-		rob.setWindowColor(Color.WHITE);
+		Robot.setWindowColor(Color.WHITE);
 		rob.penUp();
 		rob.move(-10);
 		rob.penDown();
@@ -27,7 +28,7 @@ public class RobotExample4 {
 		rob.turn(144);
 		rob.setPenWidth(8);
 		rob.penDown();
-		
+		rob.setSpeed(10);
 		for(int i = 0; i < 10; i++) {
 			rob.setRandomPenColor();
 			rob.move(200);
@@ -35,7 +36,7 @@ public class RobotExample4 {
 		}
 		rob.penUp();
 		rob.move(-300);
-		Thread.sleep(1000);
+		rob.sleep(1000);
 		rob.hide();
 	}
 }
