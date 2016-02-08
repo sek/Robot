@@ -1,8 +1,9 @@
+import org.jointheleague.graphical.robot.Robot;
 
-public class RobotExample8 {
+public class RobotExample9 {
 
 	public static void main(String[] args) throws InterruptedException {
-		MyRobot rob = new MyRobot();
+		Driver rob = new Driver(new Robot());
 		rob.setSpeed(10);
 		rob.turn(45);
 		rob.penDown();

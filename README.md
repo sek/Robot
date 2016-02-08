@@ -26,6 +26,8 @@ More than one robot can be added to the window, which is illustrated by `RobotEx
 
 `RobotExample6.java` shows how to control two robots separately from the keyboard using `ShiftKeyboardAdapter`s. When the user holds down the shift key, one robot reacts to the key events, otherwise the other robot reacts to the key events.
 
+If a user wants to teach a `Robot` new tricks, it is possible to extend the `Robot` class and add new methods and/or override existing ones. This is illustrated by `MyRobot`, which can draw regular polygons. The usage is shown in `RobotExample8.java`. Alternatively to extension, composition may be used. The class `Driver` has a `Robot` instance and commands to the `Driver` instance are delegated to the `Robot` instance. The usage is illustrated by `RobotExample9.java`. As one can see, `RobotExample8.java` and `RobotExample9.java` are almost identical. 
+
 # Importing the jar file
 
 Download this [jar file](https://github.com/ecolban/Robot/blob/master/jar/Robot.jar?raw=true) and add it to the build path of your project. This jar file also contains the API documentation in the folder named `doc`.
