@@ -17,8 +17,16 @@ public class Driver {
 		robot.turn(degrees);
 	}
 
+	public void penUp() {
+		robot.penUp();
+	}
+
 	public void penDown() {
 		robot.penDown();
+	}
+
+        public void move(int distance) {
+ 		robot.move(distance);
 	}
 
 	public void moveTo(int x, int y) {
@@ -45,17 +53,17 @@ public class Driver {
 		int angle = 360 / numSides;
 		double sin = Math.sin(Math.toRadians(angle / 2.0));
 		int sideLen = (int) (2 * radius * Math.abs(sin));
-		robot.penUp();
-		robot.move(radius);
-		robot.turn(90 + angle / 2);
-		robot.penDown();
-		robot.move(sideLen);
+		penUp();
+		move(radius);
+		turn(90 + angle / 2);
+		penDown();
+		move(sideLen);
 		for (int i = 1; i < numSides; i++) {
-			robot.turn(angle);
-			robot.move(sideLen);
+			turn(angle);
+			move(sideLen);
 		}
-		robot.penUp();
-		robot.turn(-90 + angle / 2);
+		penUp();
+		turn(-90 + angle / 2);
 	}
 
 }
