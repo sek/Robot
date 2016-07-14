@@ -2,7 +2,6 @@
 import java.awt.event.KeyEvent;
 
 import org.jointheleague.graphical.robot.KeyboardAdapter;
-import org.jointheleague.graphical.robot.Robot;
 
 public class ShiftKeyboardAdapter extends KeyboardAdapter {
 
@@ -11,15 +10,13 @@ public class ShiftKeyboardAdapter extends KeyboardAdapter {
 	/**
 	 * Constructor.
 	 * 
-	 * @param robot
-	 *            The Robot instance that the KeyboardAdapter controls.
 	 * @param shiftDown
 	 *            if true, the Shift key needs to be depressed to react to arrow
 	 *            keys; if false, the Shift key must not be depressed to react
 	 *            to arrow keys.
 	 */
-	public ShiftKeyboardAdapter(Robot robot, boolean shiftDown) {
-		super(robot);
+	public ShiftKeyboardAdapter(boolean shiftDown) {
+		super();
 		this.shiftDown = shiftDown;
 	}
 

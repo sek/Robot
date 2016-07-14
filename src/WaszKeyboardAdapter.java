@@ -2,18 +2,14 @@
 import java.awt.event.KeyEvent;
 
 import org.jointheleague.graphical.robot.KeyboardAdapter;
-import org.jointheleague.graphical.robot.Robot;
 
 public class WaszKeyboardAdapter extends KeyboardAdapter {
 
 	/**
 	 * Constructor.
-	 * 
-	 * @param robot
-	 *            The Robot instance that the KeyboardAdapter controls.
 	 */
-	public WaszKeyboardAdapter(Robot robot) {
-		super(robot);
+	public WaszKeyboardAdapter() {
+		super();
 	}
 
 	@Override

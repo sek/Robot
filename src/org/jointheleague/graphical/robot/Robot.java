@@ -614,7 +614,7 @@ public class Robot implements ActionListener {
 	 *            the KeyboardAdapter
 	 * @see KeyboardAdapter
 	 */
-	public static void addKeyboardAdapter(final KeyboardAdapter adapter) {
+	public void addKeyboardAdapter(final KeyboardAdapter adapter) {
 		SwingUtilities.invokeLater(new Runnable() {
 
 			@Override
@@ -630,6 +630,7 @@ public class Robot implements ActionListener {
 						}
 					}
 				}
+				adapter.setRobot(Robot.this);
 				window.addKeyListener(adapter);
 			}
 		});
