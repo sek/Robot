@@ -10,6 +10,6 @@ public class RobotExample2
 		Robot rob = new Robot();
 		rob.setSpeed(5);
 		rob.miniaturize();
-		Robot.addKeyboardAdapter(new KeyboardAdapter(rob));
+		rob.addKeyboardAdapter(new KeyboardAdapter());
 	}
 }

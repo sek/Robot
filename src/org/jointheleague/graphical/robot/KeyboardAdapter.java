@@ -59,11 +59,11 @@ public class KeyboardAdapter implements KeyListener, Runnable {
 
 	/**
 	 * Constructor.
-	 * 
-	 * @param robot
-	 *            The Robot instance that the KeyboardAdapter controls.
 	 */
-	public KeyboardAdapter(Robot robot) {
+	public KeyboardAdapter() {
+	}
+	
+	public void setRobot(Robot robot) {
 		this.robot = robot;
 		new Thread(this).start();
 	}
