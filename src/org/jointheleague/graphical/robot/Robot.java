@@ -8,14 +8,19 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyListener;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ThreadLocalRandom;
 
+import javax.imageio.ImageIO;
 import javax.swing.SwingUtilities;
+
+import sun.applet.Main;
 
 /**
  * <p>
@@ -282,15 +287,27 @@ public class Robot implements ActionListener {
 		}
 	}
 
+
 	/**
 	 * Changes the image of the Robot
 	 * 
 	 * @param fileName
-	 *            The file name without extension of a file in robi format that
+	 *            The URL of the image that
 	 *            specifies the Robot's image.
 	 */
-	public void changeRobot(String fileName) {
-		changeRobot(RobotImage.loadRobi(fileName));
+	public void changeRobot(String urlName) {
+		BufferedImage newImage = null;
+		URL url = null;
+	
+		try {
+			url = new URL(urlName);
+			newImage = ImageIO.read(url);
+		} catch (IOException e) {
+			System.err.println("There was an error changing robot's image. Make sure the URL is an image.");
+			e.printStackTrace();
+			newImage = (BufferedImage)image;
+		}
+		changeRobot(newImage);
 	}
 
 	/**
