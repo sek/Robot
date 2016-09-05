@@ -6,14 +6,14 @@ import java.awt.Color;
 public class RobotExample1
 {
 
-	public static void main(String[] args) throws InterruptedException
+	public static void main(String[] args)
 	{
 		Robot rob = new Robot(125, 125);
 		rob.setSpeed(10);
 		rob.miniaturize();
 		rob.penDown();
 		rob.setPenColor(Color.RED);
-		Thread.sleep(1000);
+		rob.sleep(1000);
 		int[] moves = { 260, 150, 260, 150 };
 		for (int i = 0; i < moves.length; i++)
 		{
