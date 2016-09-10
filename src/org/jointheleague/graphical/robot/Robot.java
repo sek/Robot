@@ -20,12 +20,10 @@ import java.util.concurrent.ThreadLocalRandom;
 import javax.imageio.ImageIO;
 import javax.swing.SwingUtilities;
 
-import sun.applet.Main;
-
 /**
  * <p>
  * This class is used to show a robot inside a window. If no RobotWindow exists
- * when instantiating a Robot, a window is create and the Robot placed inside
+ * when instantiating a Robot, a window is created and the Robot placed inside
  * the window. If a RobtWindow already exists, the new Robot is placed inside
  * the existing RobotWindow.
  * </p>
