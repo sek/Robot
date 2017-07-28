@@ -201,6 +201,22 @@ public class Robot implements ActionListener {
 	}
 
 	/**
+	 * Sets the window's background iamge
+	 * 
+	 * @param imageLocation
+	 *            the new window background image location.
+	 */
+	public static void setWindowImage(final String imageLocation) {
+		SwingUtilities.invokeLater(new Runnable() {
+
+			@Override
+			public void run() {
+				RobotWindow.getInstance().setBackgroundImage(imageLocation);
+			}
+		});
+	}
+	
+	/**
 	 * Sets the window's background color given the red, green and blue
 	 * components of the new color. The components are specified as an integer
 	 * between 0 and 255.

@@ -5,6 +5,7 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
@@ -37,7 +38,8 @@ class RobotWindow extends JPanel {
 	private Timer ticker;
 
 	private BufferedImage leagueLogo;
-
+	private boolean usingCustomImage;
+	
 	private boolean guiHasBeenBuilt = false;
 
 	private RobotWindow(Color c) {
@@ -48,6 +50,7 @@ class RobotWindow extends JPanel {
 		} catch (IOException e) {
 			System.err.println("Cannot load background image.");
 		}
+		usingCustomImage = false;
 	}
 
 	private void buildGui() {
@@ -102,14 +105,33 @@ class RobotWindow extends JPanel {
 		repaint();
 	}
 
+	/**
+	 * Set the RobotWindow's background Image
+	 * @param imageLocation
+	 */
+	void setBackgroundImage(String imageLocation) {
+		try {
+			leagueLogo = ImageIO.read(this.getClass().getResourceAsStream(imageLocation));
+		} catch (IOException e) {
+			System.err.println("Cannot load background image.");
+		}
+		usingCustomImage = true;
+	}
+	
 	public void paintComponent(Graphics g) {
 		Graphics2D g2 = (Graphics2D) g;
 
 		g2.setColor(winColor);
 		g2.fillRect(0, 0, getWidth(), getHeight());
-		int imgX = getWidth() - leagueLogo.getWidth() - MARGIN;
-		int imgY = MARGIN;
-		g2.drawImage(leagueLogo, imgX, imgY, null);
+		if(usingCustomImage){
+			g2.drawImage(leagueLogo, 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT, null);
+		}else{
+			int imgX = getWidth() - leagueLogo.getWidth() - MARGIN;
+			int imgY = MARGIN;
+			g2.drawImage(leagueLogo, imgX, imgY, null);
+		}
+		
+		
 
 		for (Robot r : robotList) {
 			r.draw(g2);

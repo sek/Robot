@@ -8,7 +8,10 @@ public class RobotExample1
 
 	public static void main(String[] args)
 	{
+		Robot.setWindowImage("res/space");
 		Robot rob = new Robot(125, 125);
+		
+		
 		rob.setSpeed(10);
 		rob.miniaturize();
 		rob.penDown();
