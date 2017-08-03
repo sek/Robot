@@ -417,6 +417,15 @@ public class Robot implements ActionListener {
 	}
 
 	/**
+	 * Sets the robot to a given angle
+	 * 
+	 * @param a
+	 * 			the new angle
+	 */
+	public void setAngle(int a){
+		angle = a;
+	}
+	/**
 	 * Makes the Robot sparkle.
 	 */
 	public void sparkle() {
@@ -603,6 +612,26 @@ public class Robot implements ActionListener {
 	 */
 	public void moveTo(int x, int y) {
 		pos = new Pos(x, y);
+	}
+	
+	/**
+	 * Move the robot to a new x position. No lines will be drawn
+	 * 
+	 * @param x
+	 * 			the new x-coordinate
+	 */
+	public void setX(int x){
+		pos = new Pos(x, pos.y);
+	}
+	
+	/**
+	 * Move the robot to a new y position. No lines will be drawn
+	 * 
+	 * @param y
+	 * 			the new y-coordinate
+	 */
+	public void setY(int y){
+		pos = new Pos(pos.x, y);
 	}
 
 	/**

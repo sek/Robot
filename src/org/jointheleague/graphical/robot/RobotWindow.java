@@ -111,7 +111,7 @@ class RobotWindow extends JPanel {
 	 */
 	void setBackgroundImage(String imageLocation) {
 		try {
-			leagueLogo = ImageIO.read(this.getClass().getResourceAsStream(imageLocation));
+			leagueLogo = ImageIO.read(this.getClass().getResourceAsStream("../../../../" + imageLocation));
 		} catch (IOException e) {
 			System.err.println("Cannot load background image.");
 		}
