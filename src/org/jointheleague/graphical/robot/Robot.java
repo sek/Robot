@@ -54,8 +54,8 @@ public class Robot implements ActionListener {
 	private Color penColor;
 
 	private static class Pos {
-		private final float x;
-		private final float y;
+		public final float x;
+		public final float y;
 
 		Pos(float x, float y) {
 			this.x = x;
@@ -212,6 +212,22 @@ public class Robot implements ActionListener {
 			@Override
 			public void run() {
 				RobotWindow.getInstance().setBackgroundImage(imageLocation);
+			}
+		});
+	}
+	
+	/**
+	 * Sets the window's background iamge
+	 * 
+	 * @param imageLocation
+	 *            the new window background image location.
+	 */
+	public static void setWindowSize(int width, int height) {
+		SwingUtilities.invokeLater(new Runnable() {
+
+			@Override
+			public void run() {
+				RobotWindow.getInstance().setWindowSize(width, height);
 			}
 		});
 	}
@@ -625,6 +641,26 @@ public class Robot implements ActionListener {
 	}
 	
 	/**
+	 * Get the robot's x position
+	 * 
+	 * @return 
+	 * 			the x-coordinate
+	 */
+	public int getX(){
+		return (int)pos.x;
+	}
+	
+	/**
+	 * Get the robot's y position
+	 * 
+	 * @return 
+	 * 			the y-coordinate
+	 */
+	public int getY(){
+		return (int)pos.y;
+	}
+	
+	/**
 	 * Move the robot to a new y position. No lines will be drawn
 	 * 
 	 * @param y
@@ -656,7 +692,7 @@ public class Robot implements ActionListener {
 	 *            the speed specified as a number between 1 and 10.
 	 */
 	public void setSpeed(int speed) {
-		this.speed = Math.min(Math.max(1, speed), 10);
+		this.speed = Math.min(Math.max(1, speed), 100);
 	}
 
 	public void actionPerformed(ActionEvent arg0) {

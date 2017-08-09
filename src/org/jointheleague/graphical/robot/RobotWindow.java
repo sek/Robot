@@ -42,6 +42,8 @@ class RobotWindow extends JPanel {
 	
 	private boolean guiHasBeenBuilt = false;
 
+	private JFrame frame;
+	
 	private RobotWindow(Color c) {
 		winColor = c;
 		robotList = new ArrayList<Robot>();
@@ -54,7 +56,7 @@ class RobotWindow extends JPanel {
 	}
 
 	private void buildGui() {
-		JFrame frame = new JFrame();
+		frame = new JFrame();
 		setPreferredSize(new Dimension(WINDOW_WIDTH, WINDOW_HEIGHT));
 		frame.add(this);
 		// frame.setSize(Toolkit.getDefaultToolkit().getScreenSize());
@@ -138,4 +140,9 @@ class RobotWindow extends JPanel {
 		}
 	}
 
+	public void setWindowSize(int width, int height){
+		setPreferredSize(new Dimension(width, height));
+		frame.pack();
+	}
+	
 }
