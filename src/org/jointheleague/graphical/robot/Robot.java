@@ -54,8 +54,8 @@ public class Robot implements ActionListener {
 	private Color penColor;
 
 	private static class Pos {
-		private final float x;
-		private final float y;
+		public final float x;
+		public final float y;
 
 		Pos(float x, float y) {
 			this.x = x;
@@ -200,6 +200,38 @@ public class Robot implements ActionListener {
 		});
 	}
 
+	/**
+	 * Sets the window's background iamge
+	 * 
+	 * @param imageLocation
+	 *            the new window background image location.
+	 */
+	public static void setWindowImage(final String imageLocation) {
+		SwingUtilities.invokeLater(new Runnable() {
+
+			@Override
+			public void run() {
+				RobotWindow.getInstance().setBackgroundImage(imageLocation);
+			}
+		});
+	}
+	
+	/**
+	 * Sets the window's background iamge
+	 * 
+	 * @param imageLocation
+	 *            the new window background image location.
+	 */
+	public static void setWindowSize(int width, int height) {
+		SwingUtilities.invokeLater(new Runnable() {
+
+			@Override
+			public void run() {
+				RobotWindow.getInstance().setWindowSize(width, height);
+			}
+		});
+	}
+	
 	/**
 	 * Sets the window's background color given the red, green and blue
 	 * components of the new color. The components are specified as an integer
@@ -401,6 +433,15 @@ public class Robot implements ActionListener {
 	}
 
 	/**
+	 * Sets the robot to a given angle
+	 * 
+	 * @param a
+	 * 			the new angle
+	 */
+	public void setAngle(int a){
+		angle = a;
+	}
+	/**
 	 * Makes the Robot sparkle.
 	 */
 	public void sparkle() {
@@ -588,6 +629,46 @@ public class Robot implements ActionListener {
 	public void moveTo(int x, int y) {
 		pos = new Pos(x, y);
 	}
+	
+	/**
+	 * Move the robot to a new x position. No lines will be drawn
+	 * 
+	 * @param x
+	 * 			the new x-coordinate
+	 */
+	public void setX(int x){
+		pos = new Pos(x, pos.y);
+	}
+	
+	/**
+	 * Get the robot's x position
+	 * 
+	 * @return 
+	 * 			the x-coordinate
+	 */
+	public int getX(){
+		return (int)pos.x;
+	}
+	
+	/**
+	 * Get the robot's y position
+	 * 
+	 * @return 
+	 * 			the y-coordinate
+	 */
+	public int getY(){
+		return (int)pos.y;
+	}
+	
+	/**
+	 * Move the robot to a new y position. No lines will be drawn
+	 * 
+	 * @param y
+	 * 			the new y-coordinate
+	 */
+	public void setY(int y){
+		pos = new Pos(pos.x, y);
+	}
 
 	/**
 	 * Lifts the pen, i.e., the Robot stops drawing lines.
@@ -611,7 +692,7 @@ public class Robot implements ActionListener {
 	 *            the speed specified as a number between 1 and 10.
 	 */
 	public void setSpeed(int speed) {
-		this.speed = Math.min(Math.max(1, speed), 10);
+		this.speed = Math.min(Math.max(1, speed), 100);
 	}
 
 	public void actionPerformed(ActionEvent arg0) {
