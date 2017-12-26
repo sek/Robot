@@ -12,6 +12,6 @@ public class RobotExample7
 		june.setSpeed(10);
 		vic.setSpeed(10);
 		vic.addKeyboardAdapter(new KeyboardAdapter());
-		june.addKeyboardAdapter(new WaszKeyboardAdapter());
+		june.addKeyboardAdapter(new WasdKeyboardAdapter());
 	}
 }

@@ -81,7 +81,9 @@ public class KeyboardAdapter implements KeyListener, Runnable {
 					robot.microTurn(1);
 				} else if (turningLeft && !turningRight) {
 					robot.microTurn(-1);
-				}
+				} else {
+				    robot.doNothing();
+                }
 			} catch (InterruptedException e) {
 				Thread.currentThread().interrupt();
 				System.out.println(e.getMessage());
