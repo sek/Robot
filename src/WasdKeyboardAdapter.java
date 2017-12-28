@@ -1,7 +1,6 @@
+import org.jointheleague.graphical.robot.KeyboardAdapter;
 
 import java.awt.event.KeyEvent;
-
-import org.jointheleague.graphical.robot.KeyboardAdapter;
 
 public class WasdKeyboardAdapter extends KeyboardAdapter {
 
@@ -10,13 +9,6 @@ public class WasdKeyboardAdapter extends KeyboardAdapter {
     See: https://bugs.openjdk.java.net/browse/JDK-8167263,
     and: http://mail.openjdk.java.net/pipermail/awt-dev/2017-December/013435.html
      */
-
-    /**
-     * Constructor.
-     */
-    public WasdKeyboardAdapter() {
-        super();
-    }
 
 
     @Override

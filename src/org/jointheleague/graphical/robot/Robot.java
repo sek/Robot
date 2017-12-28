@@ -1,5 +1,7 @@
 package org.jointheleague.graphical.robot;
 
+import javax.imageio.ImageIO;
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -7,7 +9,6 @@ import java.awt.event.KeyListener;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,9 +16,6 @@ import java.util.Random;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ThreadLocalRandom;
-
-import javax.imageio.ImageIO;
-import javax.swing.SwingUtilities;
 
 /**
  * <p>
@@ -42,47 +40,29 @@ import javax.swing.SwingUtilities;
  */
 public class Robot implements ActionListener {
 
+    protected static final int TICK_LENGTH = 40; // in milliseconds
     private static final int MAXI_IMAGE_SIZE = 100;
     private static final int MINI_IMAGE_SIZE = 25;
-    protected static final int TICK_LENGTH = 40; // in milliseconds
     private static final int MIN_SPEED = 1;
     private static final int MAX_SPEED = 100;
 
+    // Robot state start
     private int speed;
     private boolean penDown;
     private int penWidth;
     private Color penColor;
-
-    private static class Pos {
-        private final float x;
-        private final float y;
-
-        Pos(float x, float y) {
-            this.x = x;
-            this.y = y;
-        }
-    }
-
     private Pos pos;
-
     private int angle;
     private boolean isVisible;
     private boolean isSparkling;
+    private ArrayList<Line> lines;
     private Line currentLine;
-
     private boolean isMini = false;
     private Image maxiImage;
     private Image miniImage;
     private Image image;
-
-    private ArrayList<Line> lines; // only referenced from the EDT
-
+    // Robot state end
     private RobotWindow window;
-
-    private enum TimeQuantum {
-        TICK
-    }
-
     private BlockingQueue<TimeQuantum> leakyBucket = new ArrayBlockingQueue<>(1);
 
     public Robot() {
@@ -121,13 +101,6 @@ public class Robot implements ActionListener {
         this(robotImage, 0, 0);
         final int[] center = new int[2];
         Dimension dimension = window.getSize();
-//        try {
-//            SwingUtilities.invokeAndWait(() -> {
-//                center[0] = window.getWidth() / 2;
-//                center[1] = window.getHeight() / 2;
-//            });
-//        } catch (InvocationTargetException | InterruptedException e) {
-//        }
         moveTo(dimension.width / 2, dimension.height / 2);
     }
 
@@ -579,8 +552,6 @@ public class Robot implements ActionListener {
         }
     }
 
-    //
-
     /**
      * Waits a given number of milliseconds.
      *
@@ -682,5 +653,19 @@ public class Robot implements ActionListener {
             adapter.setRobot(Robot.this);
             window.addKeyListener(adapter);
         });
+    }
+
+    private enum TimeQuantum {
+        TICK
+    }
+
+    private static class Pos {
+        private final float x;
+        private final float y;
+
+        Pos(float x, float y) {
+            this.x = x;
+            this.y = y;
+        }
     }
 }
