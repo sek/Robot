@@ -21,7 +21,7 @@ import java.util.concurrent.ThreadLocalRandom;
  * <p>
  * This class is used to show a robot inside a window. If no RobotWindow exists
  * when instantiating a Robot, a window is created and the Robot placed inside
- * the window. If a RobtWindow already exists, the new Robot is placed inside
+ * the window. If a RobotWindow already exists, the new Robot is placed inside
  * the existing RobotWindow.
  * </p>
  * <p>
@@ -99,7 +99,6 @@ public class Robot implements ActionListener {
      */
     public Robot(BufferedImage robotImage) {
         this(robotImage, 0, 0);
-        final int[] center = new int[2];
         Dimension dimension = window.getSize();
         moveTo(dimension.width / 2, dimension.height / 2);
     }
@@ -137,7 +136,7 @@ public class Robot implements ActionListener {
         image = maxiImage;
         isMini = false;
 
-        lines = new ArrayList<Line>();
+        lines = new ArrayList<>();
         window = RobotWindow.getInstance();
         window.addRobot(this);
     }
@@ -523,6 +522,7 @@ public class Robot implements ActionListener {
                 setAngle(angle0 + degreesTurned);
             }
         } catch (InterruptedException e) {
+            e.printStackTrace();
         }
     }
 
@@ -564,7 +564,7 @@ public class Robot implements ActionListener {
                 leakyBucket.take();
             }
         } catch (InterruptedException e) {
-
+            e.printStackTrace();
         }
     }
 
