@@ -10,7 +10,7 @@ import java.awt.Graphics2D;
  * @author Erik Colban &amp; David Dunn &copy; 2016
  *
  */
-final class Line {
+final public class Line {
 
 	private final int startX;
 	private final int startY;

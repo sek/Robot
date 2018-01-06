@@ -1,8 +1,7 @@
-
 import org.jointheleague.graphical.robot.Robot;
 
 public class RobotExample3 {
-	
+
     public static void main(String[] args) {
 
         Robot rob = new Robot();
@@ -12,5 +11,4 @@ public class RobotExample3 {
         rob.penDown();
         rob.addKeyboardAdapter(new ExtendedKeyboardAdapter());
     }
-	
 }
