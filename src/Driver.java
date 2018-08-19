@@ -126,7 +126,7 @@ public class Driver implements RobotInterface {
 
     @Override
     public void unSparkle() {
-
+        robot.unSparkle();
     }
 
     @Override
