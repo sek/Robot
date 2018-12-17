@@ -1,6 +1,10 @@
+package examples;
+
+// No imports
+
 public class RobotExample8 {
 
-    public static void main(String[] args) throws InterruptedException {
+    public static void main(String[] args) {
         MyRobot rob = new MyRobot();
         rob.setSpeed(10);
         rob.turn(45);

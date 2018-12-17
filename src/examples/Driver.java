@@ -1,9 +1,12 @@
+package examples;
+
 import org.jointheleague.graphical.robot.KeyboardAdapter;
 import org.jointheleague.graphical.robot.Robot;
 import org.jointheleague.graphical.robot.RobotInterface;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.util.Random;
 
 public class Driver implements RobotInterface {
 
@@ -101,7 +104,8 @@ public class Driver implements RobotInterface {
 
     @Override
     public void setRandomPenColor() {
-        robot.setRandomPenColor();
+        int shade = 5 * new Random().nextInt(50);
+        robot.setPenColor(shade, shade, shade);
     }
 
     @Override

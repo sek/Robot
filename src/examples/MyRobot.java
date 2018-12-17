@@ -1,3 +1,5 @@
+package examples;
+
 import org.jointheleague.graphical.robot.Robot;
 
 public class MyRobot extends Robot {
@@ -5,10 +7,8 @@ public class MyRobot extends Robot {
 	/**
 	 * Draws a regular polygon with center at the robot's current position
 	 * 
-	 * @param numSides
-	 *            the number of sides of the polygon
-	 * @param radius
-	 *            the radius of the circumscribed circle.
+	 * @param numSides the number of sides of the polygon
+	 * @param radius   the radius of the circumscribed circle.
 	 */
 	public void drawPolygon(int numSides, int radius) {
 		int angle = 360 / numSides;
