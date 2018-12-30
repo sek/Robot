@@ -1,3 +1,5 @@
+package examples;
+
 import org.jointheleague.graphical.robot.Robot;
 
 public class MyRobot extends Robot {

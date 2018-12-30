@@ -1,14 +1,14 @@
-import org.jointheleague.graphical.robot.Robot;
+package examples;
 
-public class RobotExample9 {
+public class RobotExample8 {
 
     public static void main(String[] args) throws InterruptedException {
-        Driver rob = new Driver(new Robot());
+        MyRobot rob = new MyRobot();
         rob.setSpeed(10);
         rob.turn(45);
         rob.penDown();
-        for (int i : new int[]{4, 5, 6, 8, 10}) {
-            rob.moveTo(450, 300);
+        for (int i : new int[]{3, 4, 5, 6, 8, 10}) {
+            rob.setPos(450, 300);
             rob.setRandomPenColor();
             rob.drawPolygon(i, 200);
         }
