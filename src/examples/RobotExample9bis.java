@@ -1,11 +1,11 @@
 package examples;
 
-// No imports
+import org.jointheleague.graphical.robot.Robot;
 
-public class RobotExample8 {
+public class RobotExample9bis {
 
     public static void main(String[] args) {
-        MyRobot rob = new MyRobot();
+        DriverKt rob = new DriverKt(new Robot());
         rob.setSpeed(10);
         rob.turn(45);
         rob.penDown();

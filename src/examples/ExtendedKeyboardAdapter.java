@@ -7,9 +7,9 @@ import java.awt.event.KeyEvent;
 public class ExtendedKeyboardAdapter extends KeyboardAdapter {
 
 
-    public ExtendedKeyboardAdapter() {
-        super();
-    }
+//    public ExtendedKeyboardAdapter() {
+//        super();
+//    }
 
 
     @Override
