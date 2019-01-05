@@ -5,7 +5,6 @@ import java.awt.*;
 import java.awt.font.FontRenderContext;
 import java.awt.font.GlyphVector;
 import java.awt.geom.Rectangle2D;
-import java.util.concurrent.CountDownLatch;
 
 public class RobotExample13 {
 
@@ -13,10 +12,8 @@ public class RobotExample13 {
 
         char[] text = "Amazing ROBOTS".toCharArray();
         Robot[] robots = new Robot[text.length];
-        int numRobots =0;
         for (int i = 0; i < robots.length; i++) {
             if (text[i] == ' ') continue;
-            numRobots++;
             robots[i] = new Robot(100 + 50 * i, 400);
             robots[i].miniaturize();
         }
@@ -32,7 +29,6 @@ public class RobotExample13 {
         final Dimension dimension = window.getSize();
         final float leftMargin = (float) ((dimension.getWidth() - textBounds.getWidth()) / 2);
         final float topMargin = 100F + (float) ((dimension.getHeight() - textBounds.getHeight()) / 2);
-        final CountDownLatch latch = new CountDownLatch(numRobots);
         for (int i = 0; i < text.length; i++) {
             if (text[i] == ' ') continue;
             Shape glyphShape = glyphVector.getGlyphOutline(i, leftMargin, topMargin);
@@ -46,7 +42,7 @@ public class RobotExample13 {
                 Rectangle bounds = glyphShape.getBounds();
                 rob.penUp();
                 rob.moveTo(bounds.x + bounds.width / 2F, 400, false, false);
-                rob.moveTo(0, 1, true, false);
+                rob.moveTo(0, -1, true, false);
             }).start();
         }
     }

@@ -45,8 +45,8 @@ final public class Quad implements Drawable, Segment {
 
     @Override
     public Segment subSegment(float t) {
-        org.jointheleague.graphical.robot.Robot.Pos pos1 = line.getPos(t);
-        org.jointheleague.graphical.robot.Robot.Pos pos2 = getPos(t);
+        Robot.Pos pos1 = line.getPos(t);
+        Robot.Pos pos2 = getPos(t);
 
         float[] ctrlPoints = {
                 pos1.getX(), pos1.getY(),
@@ -56,14 +56,14 @@ final public class Quad implements Drawable, Segment {
     }
 
     @Override
-    public org.jointheleague.graphical.robot.Robot.Pos getPos(float t) {
-        if (t <= 0F) return new org.jointheleague.graphical.robot.Robot.Pos(startX, startY);
-        if (1F <= t) return new org.jointheleague.graphical.robot.Robot.Pos(ctrlPoints[2], ctrlPoints[3]);
+    public Robot.Pos getPos(float t) {
+        if (t <= 0F) return new Robot.Pos(startX, startY);
+        if (1F <= t) return new Robot.Pos(ctrlPoints[2], ctrlPoints[3]);
         float u = 1F - t;
         float c0 = u * u;
         float c1 = 2 * u * t;
         float c2 = t * t;
-        return new org.jointheleague.graphical.robot.Robot.Pos(
+        return new Robot.Pos(
                 c0 * startX + c1 * ctrlPoints[0] + c2 * ctrlPoints[2],
                 c0 * startY + c1 * ctrlPoints[1] + c2 * ctrlPoints[3]);
 
@@ -105,7 +105,7 @@ final public class Quad implements Drawable, Segment {
 
     @Override
     public Path2D addTo(Path2D path2D, float t) {
-        org.jointheleague.graphical.robot.Robot.Pos pos1 = line.getPos(t);
+        Robot.Pos pos1 = line.getPos(t);
         Robot.Pos pos2 = getPos(t);
         path2D.quadTo(pos1.getX(), pos1.getY(), pos2.getX(), pos2.getY());
         return path2D;

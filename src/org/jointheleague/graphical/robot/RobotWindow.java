@@ -25,7 +25,7 @@ public class RobotWindow extends JPanel {
 
     private Color winColor;
 
-    private ArrayList<org.jointheleague.graphical.robot.Robot> robotList;
+    private ArrayList<Robot> robotList;
     private Timer ticker;
 
     private BufferedImage leagueLogo;
@@ -84,7 +84,7 @@ public class RobotWindow extends JPanel {
                 RenderingHints.KEY_ANTIALIASING,
                 RenderingHints.VALUE_ANTIALIAS_ON);
         g2.setRenderingHints(renderingHints);
-        for (org.jointheleague.graphical.robot.Robot robot : robotList) {
+        for (Robot robot : robotList) {
             robot.draw(g2);
         }
     }
@@ -94,7 +94,7 @@ public class RobotWindow extends JPanel {
      *
      * @param robot the robot
      */
-    void addRobot(final org.jointheleague.graphical.robot.Robot robot) {
+    void addRobot(final Robot robot) {
         final ActionListener tickerListener = robot.getTickerListener();
         try {
             SwingUtilities.invokeAndWait(() -> {
