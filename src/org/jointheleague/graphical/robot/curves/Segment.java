@@ -54,8 +54,23 @@ public interface Segment {
      */
     float getSize();
 
-    Path2D addTo (Path2D path2D);
+    /**
+     * Adds the Segment to the end of a Path2D
+     *
+     * @param path2D a Path2D to which this segment is added.
+     * @return a Path2D
+     */
+    Path2D addTo(Path2D path2D);
 
-    Path2D addTo (Path2D path2D, float t);
+    /**
+     * Adds a sub-segment of this segment to the end of a Path2D
+     *
+     * @param path2D a Path2D to which the sub-segment is added
+     * @param t      a float value, normally between 0 and 1, that
+     *               specifies the sub-segment of this segment that is added
+     * @return a Path2D
+     * @see #subSegment(float)
+     */
+    Path2D addTo(Path2D path2D, float t);
 
 }

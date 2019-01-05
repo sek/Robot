@@ -1,6 +1,5 @@
 package org.jointheleague.graphical.robot.curves;
 
-import org.jointheleague.graphical.robot.Drawable;
 import org.jointheleague.graphical.robot.Robot;
 
 import java.awt.BasicStroke;
@@ -39,7 +38,7 @@ final public class Line implements Drawable, Segment {
     public void draw(Graphics2D g2) {
         g2.setStroke(new BasicStroke(lineSize));
         g2.setColor(color);
-        g2.draw(new Line2D.Float(ctrlPoints[0], ctrlPoints[1], ctrlPoints[2], ctrlPoints[3]));
+        g2.draw(new Line2D.Float(startX, startY, ctrlPoints[0], ctrlPoints[1]));
     }
 
     @Override

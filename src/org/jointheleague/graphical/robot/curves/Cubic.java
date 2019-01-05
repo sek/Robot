@@ -1,6 +1,5 @@
 package org.jointheleague.graphical.robot.curves;
 
-import org.jointheleague.graphical.robot.Drawable;
 import org.jointheleague.graphical.robot.Robot;
 
 import java.awt.*;
@@ -51,9 +50,9 @@ final public class Cubic implements Drawable, Segment {
 
     @Override
     public Segment subSegment(float t) {
-        Robot.Pos pos1 = line.getPos(t);
-        Robot.Pos pos2 = quad.getPos(t);
-        Robot.Pos pos3 = getPos(t);
+        org.jointheleague.graphical.robot.Robot.Pos pos1 = line.getPos(t);
+        org.jointheleague.graphical.robot.Robot.Pos pos2 = quad.getPos(t);
+        org.jointheleague.graphical.robot.Robot.Pos pos3 = getPos(t);
         float[] ctrlPoints = {
                 pos1.getX(), pos1.getY(),
                 pos2.getX(), pos2.getY(),
@@ -62,9 +61,9 @@ final public class Cubic implements Drawable, Segment {
     }
 
     @Override
-    public Robot.Pos getPos(float t) {
-        if (t <= 0F) return new Robot.Pos(startX, startY);
-        if (1F <= t) return new Robot.Pos(ctrlPoints[4], ctrlPoints[5]);
+    public org.jointheleague.graphical.robot.Robot.Pos getPos(float t) {
+        if (t <= 0F) return new org.jointheleague.graphical.robot.Robot.Pos(startX, startY);
+        if (1F <= t) return new org.jointheleague.graphical.robot.Robot.Pos(ctrlPoints[4], ctrlPoints[5]);
         final float u = 1 - t;
         final float uu = u * u;
         final float tt = t * t;
@@ -72,7 +71,7 @@ final public class Cubic implements Drawable, Segment {
         float c1 = 3 * uu * t;
         float c2 = 3 * u * tt;
         float c3 = t * tt;
-        return new Robot.Pos(
+        return new org.jointheleague.graphical.robot.Robot.Pos(
                 c0 * startX + c1 * ctrlPoints[0] + c2 * ctrlPoints[2] + c3 * ctrlPoints[4],
                 c0 * startY + c1 * ctrlPoints[1] + c2 * ctrlPoints[3] + c3 * ctrlPoints[5]);
     }
@@ -115,8 +114,8 @@ final public class Cubic implements Drawable, Segment {
 
     @Override
     public Path2D addTo(Path2D path2D, float t) {
-        Robot.Pos pos1 = line.getPos(t);
-        Robot.Pos pos2 = quad.getPos(t);
+        org.jointheleague.graphical.robot.Robot.Pos pos1 = line.getPos(t);
+        org.jointheleague.graphical.robot.Robot.Pos pos2 = quad.getPos(t);
         Robot.Pos pos3 = getPos(t);
         path2D.curveTo(
                 pos1.getX(), pos1.getY(),

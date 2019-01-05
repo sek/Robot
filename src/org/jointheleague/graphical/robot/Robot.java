@@ -42,7 +42,7 @@ import java.util.concurrent.ThreadLocalRandom;
  */
 public class Robot implements RobotInterface {
 
-    static final int TICK_LENGTH = 40; // in milliseconds
+    static final int TICK_LENGTH = 20; // in milliseconds
     private static final int MAXI_IMAGE_SIZE = 100;
     private static final int MINI_IMAGE_SIZE = 25;
     private static final int MIN_SPEED = 1;
@@ -67,7 +67,7 @@ public class Robot implements RobotInterface {
 
     private RobotWindow window;
     private BlockingQueue<TimeQuantum> leakyBucket = new ArrayBlockingQueue<>(1);
-    private PartialPath currentPath;
+    private DynamicPath currentPath;
 
     public Robot() {
         this("rob");
@@ -199,10 +199,10 @@ public class Robot implements RobotInterface {
         for (Drawable drawable : getDrawables()) {
             drawable.draw(g2);
         }
-        Drawable drawable = getCurrentDrawable();
-        if (isPenDown() && drawable != null) // draws under robot
-        {
-            drawable.draw(g2);
+        // draws under robot
+        if (isPenDown()) {
+            Drawable drawable = getCurrentDrawable();
+            if (drawable != null) drawable.draw(g2);
         }
 
         // first cache the standard coordinate system
@@ -548,17 +548,17 @@ public class Robot implements RobotInterface {
 
     @Override
     public void followPath(PathIterator pathIterator) {
-        PartialPath partialPath = new PartialPath(pathIterator, getPenWidth(), getPenColor(),this);
-        currentDrawable = partialPath;
+        DynamicPath dynamicPath = new DynamicPath(pathIterator, getPenWidth(), getPenColor(), this);
+        if(isPenDown()) currentDrawable = dynamicPath;
         try {
-            while (!partialPath.isComplete()) {
+            while (!dynamicPath.isComplete()) {
                 leakyBucket.take();
-                partialPath.incrementTime(speed);
+                dynamicPath.incrementTime(speed);
             }
-        } catch(InterruptedException ignore) {
+        } catch (InterruptedException ignore) {
         }
         synchronized (this) {
-            if(currentDrawable != null) {
+            if (currentDrawable != null) {
                 addDrawable(currentDrawable);
                 setCurrentDrawable(null);
             }
