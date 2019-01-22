@@ -488,15 +488,15 @@ public class Robot implements RobotInterface {
 
     @Override
     public void lineTo(final float x, final float y, final boolean relative) {
-        float[] ctrlPoints = new float[4];
-        ctrlPoints[0] = relative ? ctrlPoints[0] + x : x;
-        ctrlPoints[1] = relative ? ctrlPoints[1] + y : y;
+        float[] ctrlPoints = new float[2];
+        ctrlPoints[0] = relative ? getX() + x : x;
+        ctrlPoints[1] = relative ? getY() + y : y;
         segmentTo(new Line(getX(), getY(), ctrlPoints, getPenWidth(), getPenColor()), true);
     }
 
     @Override
     public void quadTo(float x1, float y1, float x2, float y2, boolean relative) {
-        float[] ctrlPoints = new float[8];
+        float[] ctrlPoints = new float[4];
         ctrlPoints[0] = relative ? getX() + x1 : x1;
         ctrlPoints[1] = relative ? getY() + y1 : y1;
         ctrlPoints[2] = relative ? getX() + x2 : x2;
@@ -506,7 +506,7 @@ public class Robot implements RobotInterface {
 
     @Override
     public void cubicTo(float x1, float y1, float x2, float y2, float x3, float y3, boolean relative) {
-        float[] ctrlPoints = new float[8];
+        float[] ctrlPoints = new float[6];
         ctrlPoints[0] = relative ? getX() + x1 : x1;
         ctrlPoints[1] = relative ? getY() + y1 : y1;
         ctrlPoints[2] = relative ? getX() + x2 : x2;
