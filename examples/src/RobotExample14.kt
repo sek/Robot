@@ -96,7 +96,7 @@ fun main() {
 
     val rob = Robot()
     RobotWindow.getInstance().setWinColor(Color.WHITE)
-    rob.setSpeed(20)
+    rob.setSpeed(5)
     rob.penWidth = 1
     rob.miniaturize()
     rob.penDown()
@@ -105,10 +105,16 @@ fun main() {
             "l300,0",
             "l0,300",
             "l-300,0",
+            "Z",
+            "M150,150",
+            "l0,200",
+            "l200,0",
+            "l0,-200",
             "Z")
     rob.setPenColor(230, 220, 220)
     rob.followPath(getPathIterator(rect), true)
     rob.penColor = Color.DARK_GRAY
+    rob.setSpeed(20)
     File("examples/res/homer-simpson.txt").useLines {
         rob.followPath(getPathIterator(it), true)
     }
