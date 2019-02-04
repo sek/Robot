@@ -24,11 +24,12 @@ final public class DynamicPath implements Drawable {
 
     /**
      * Constructor
+     *
      * @param pathIterator a PathIterator describing the path
      * @param lineSize     the line width used to draw the path.
      * @param color        the color used to draw the path
      * @param robot        a Robot that moves along the path
-     * @param fill
+     * @param fill         if set to true, fill path else draw the outline
      */
     public DynamicPath(PathIterator pathIterator, int lineSize, Color color, Robot robot, boolean fill) {
         this.pathIterator = pathIterator;
