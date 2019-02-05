@@ -8,7 +8,7 @@ import java.lang.UnsupportedOperationException
 
 private val floatRegex = """[-+]?\d*\.?\d+""".toRegex()
 
-private class SequencePathIterator(lines: Sequence<String>) : PathIterator {
+fun getPathIterator(lines: Sequence<String>): PathIterator = object : PathIterator {
 
     val iterator = lines
             .filter { !it.isBlank() }
@@ -29,57 +29,55 @@ private class SequencePathIterator(lines: Sequence<String>) : PathIterator {
 
     override fun getWindingRule(): Int = PathIterator.WIND_EVEN_ODD
 
-    override fun currentSegment(coords: FloatArray?): Int {
-
-        val coords_: FloatArray = coords ?: FloatArray(6)
+    override fun currentSegment(coords: FloatArray): Int {
 
         floatRegex.findAll(currentLine).forEachIndexed { i, matchResult ->
-            coords_[i] = matchResult.value.toFloat()
+            coords[i] = matchResult.value.toFloat()
         }
 
         return when (currentLine[0]) {
-            'M' -> {
-                refPointX = coords_[0]
-                refPointY = coords_[1]
+            'M', 'm' -> {
+                refPointX = coords[0]
+                refPointY = coords[1]
                 PathIterator.SEG_MOVETO
             }
             'L' -> {
-                refPointX = coords_[0]
-                refPointY = coords_[1]
+                refPointX = coords[0]
+                refPointY = coords[1]
                 PathIterator.SEG_LINETO
             }
             'l' -> {
                 for (i in 0..1) {
-                    coords_[i] +=  if (i % 2 == 0) refPointX else refPointY
+                    coords[i] += if (i % 2 == 0) refPointX else refPointY
                 }
-                refPointX = coords_[0]
-                refPointY = coords_[1]
+                refPointX = coords[0]
+                refPointY = coords[1]
                 PathIterator.SEG_LINETO
             }
             'Q' -> {
-                refPointX = coords_[2]
-                refPointY = coords_[3]
+                refPointX = coords[2]
+                refPointY = coords[3]
                 PathIterator.SEG_QUADTO
             }
             'q' -> {
                 for (i in 0..3) {
-                    coords_[i] +=  if (i % 2 == 0) refPointX else refPointY
+                    coords[i] += if (i % 2 == 0) refPointX else refPointY
                 }
-                refPointX = coords_[2]
-                refPointY = coords_[3]
+                refPointX = coords[2]
+                refPointY = coords[3]
                 PathIterator.SEG_QUADTO
             }
             'C' -> {
-                refPointX = coords_[4]
-                refPointY = coords_[5]
+                refPointX = coords[4]
+                refPointY = coords[5]
                 PathIterator.SEG_CUBICTO
             }
             'c' -> {
                 for (i in 0..5) {
-                    coords_[i] +=  if (i % 2 == 0) refPointX else refPointY
+                    coords[i] += if (i % 2 == 0) refPointX else refPointY
                 }
-                refPointX = coords_[4]
-                refPointY = coords_[5]
+                refPointX = coords[4]
+                refPointY = coords[5]
                 PathIterator.SEG_CUBICTO
             }
             'Z', 'z' -> PathIterator.SEG_CLOSE
@@ -87,7 +85,7 @@ private class SequencePathIterator(lines: Sequence<String>) : PathIterator {
         }
     }
 
-    override fun currentSegment(coords: DoubleArray?): Int {
+    override fun currentSegment(coords: DoubleArray): Int {
         throw UnsupportedOperationException()
     }
 
@@ -98,13 +96,27 @@ fun main() {
 
     val rob = Robot()
     RobotWindow.getInstance().setWinColor(Color.WHITE)
-    rob.setSpeed(20)
-    rob.penColor = Color.DARK_GRAY
+    rob.setSpeed(5)
     rob.penWidth = 1
     rob.miniaturize()
     rob.penDown()
+    val rect = sequenceOf(
+            "M100,100",
+            "l300,0",
+            "l0,300",
+            "l-300,0",
+            "Z",
+            "M150,150",
+            "l0,200",
+            "l200,0",
+            "l0,-200",
+            "Z")
+    rob.setPenColor(230, 220, 220)
+    rob.followPath(getPathIterator(rect), true)
+    rob.penColor = Color.DARK_GRAY
+    rob.setSpeed(20)
     File("examples/res/homer-simpson.txt").useLines {
-        rob.followPath(SequencePathIterator(it), true)
+        rob.followPath(getPathIterator(it), true)
     }
     rob.sleep(1000)
     rob.hide()

@@ -475,15 +475,11 @@ public class Robot implements RobotInterface {
     }
 
     @Override
-    public void moveTo(float x, float y, boolean relative, boolean jump) {
-        if (jump) {
-            pos = relative ? new Pos(getX() + x, getY() + y) : new Pos(x, y);
-        } else {
-            float[] ctrlPoints = new float[2];
-            ctrlPoints[0] = relative ? getX() + x : x;
-            ctrlPoints[1] = relative ? getY() + y : y;
-            segmentTo(new Move(getX(), getY(), ctrlPoints), true);
-        }
+    public void moveTo(float x, float y, boolean relative) {
+        float[] ctrlPoints = new float[2];
+        ctrlPoints[0] = relative ? getX() + x : x;
+        ctrlPoints[1] = relative ? getY() + y : y;
+        segmentTo(new Move(getX(), getY(), ctrlPoints), true);
     }
 
     @Override
@@ -547,9 +543,9 @@ public class Robot implements RobotInterface {
     }
 
     @Override
-    public void followPath(PathIterator pathIterator) {
-        DynamicPath dynamicPath = new DynamicPath(pathIterator, getPenWidth(), getPenColor(), this);
-        if(isPenDown()) currentDrawable = dynamicPath;
+    public void followPath(PathIterator pathIterator, boolean fill) {
+        DynamicPath dynamicPath = new DynamicPath(pathIterator, getPenWidth(), getPenColor(), this, fill);
+        if (isPenDown()) currentDrawable = dynamicPath;
         try {
             while (!dynamicPath.isComplete()) {
                 leakyBucket.take();
@@ -563,6 +559,11 @@ public class Robot implements RobotInterface {
                 setCurrentDrawable(null);
             }
         }
+    }
+
+    @Override
+    public void followPath(PathIterator pathIterator) {
+        followPath(pathIterator, false);
     }
 
     public double getAngleToTurn(final double targetAngle) {
