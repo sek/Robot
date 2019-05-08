@@ -32,6 +32,11 @@ public class Driver implements RobotInterface {
     }
 
     @Override
+    public void turnTo(double degrees) {
+        robot.turnTo(degrees);
+    }
+
+    @Override
     public void microTurn(int sgn) throws InterruptedException {
         robot.microTurn(sgn);
     }

@@ -146,6 +146,14 @@ public interface RobotInterface {
     void turn(double degrees);
 
     /**
+     * Turn the robot in place until it has reached an orientation given in degrees.
+     * Zero is up, 90 is right.
+     *
+     * @param degrees the desired orientation.
+     */
+    void turnTo(double degrees);
+
+    /**
      * Makes the Robot turn in place a small angle. If the argument is positive,
      * the Robot turn clockwise, if negative the Robot turns counter-clockwise.
      * The angle turn is dependent on the Robot's speed.
@@ -179,6 +187,7 @@ public interface RobotInterface {
      * regardless of whether pen is up or down. Unless <code>jump</code> is true,
      * if necessary, turn the robot first such that it is heading in the right
      * direction before moving the robot.
+     *
      * @param x        the x-coordinate of the new position
      * @param y        the y-coordinate of the new position
      * @param relative if true, x and y a relative to the robot's current position
