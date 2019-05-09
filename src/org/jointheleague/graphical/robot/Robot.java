@@ -440,6 +440,11 @@ public class Robot implements RobotInterface {
     }
 
     @Override
+    public void turnTo(double degrees) {
+        turn(getAngleToTurn(degrees));
+    }
+
+    @Override
     public void microTurn(int sgn) throws InterruptedException {
         if (sgn == 0) {
             throw new IllegalArgumentException("sgn must be non-zero.");
@@ -515,7 +520,7 @@ public class Robot implements RobotInterface {
     private void segmentTo(Segment segment, boolean forwards) {
         final double directionAdjustment = forwards ? 0.0 : Math.PI;
         double startAngle = segment.getStartAngle();
-        if (!Double.isNaN(startAngle)) turn(getAngleToTurn(startAngle + directionAdjustment));
+        if (!Double.isNaN(startAngle)) turnTo(startAngle + directionAdjustment);
 
         final float deltaT = speed / segment.getSize();
         float t = 0.0F;
@@ -566,7 +571,7 @@ public class Robot implements RobotInterface {
         followPath(pathIterator, false);
     }
 
-    public double getAngleToTurn(final double targetAngle) {
+    private double getAngleToTurn(final double targetAngle) {
         final double angle = Math.toDegrees(targetAngle - Math.toRadians(getAngle()));
         if (angle > 180.0) return (angle + 180.0) % 360.0 - 180.0;
         if (angle < -180.0) return (angle - 180.0) % 360.0 + 180.0;

@@ -40,7 +40,7 @@ final public class DynamicPath implements Drawable {
         currentSegment = getCurrentSegment();
         assert currentSegment != null;
         double startAngle = currentSegment.getStartAngle();
-        if (!Double.isNaN(startAngle)) robot.turn(robot.getAngleToTurn(startAngle));
+        if (!Double.isNaN(startAngle)) robot.turnTo(startAngle);
     }
 
     private Segment getCurrentSegment() {
@@ -87,7 +87,7 @@ final public class DynamicPath implements Drawable {
                 currentSegment = getCurrentSegment();
                 assert currentSegment != null;
                 double startAngle = currentSegment.getStartAngle();
-                if (!Double.isNaN(startAngle)) robot.turn(robot.getAngleToTurn(startAngle));
+                if (!Double.isNaN(startAngle)) robot.turnTo(startAngle);
                 time = 0F;
             }
         }
