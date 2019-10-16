@@ -1,6 +1,5 @@
 package org.jointheleague.graphical.robot.curves;
 
-import com.sun.istack.internal.NotNull;
 import org.jointheleague.graphical.robot.Robot;
 
 import java.awt.geom.Path2D;
@@ -30,7 +29,7 @@ public interface Segment {
     /**
      * @return the angle in radians of the segment at the start
      */
-    @NotNull
+//    @NotNull
     double getStartAngle();
 
     /**
