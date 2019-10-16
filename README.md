@@ -1,3 +1,5 @@
+[![](https://jitpack.io/v/sek/Robot.svg)](https://jitpack.io/#sek/Robot)
+
 # Project Description
 
 This project allows novice programmers to experience a quick and easy start to programming. An example of a very simple program is as follows:
@@ -32,11 +34,11 @@ Robots don't necessary have to move in straight lines. `RobotExample11.java` ill
 
 # Importing the jar file
 
-TODO: Fix location:
+TODO: update to master locations:
 
-Download this [jar file](https://github.com/ecolban/Robot/blob/master/jar/robot.jar?raw=true) and add it to the build path of your project. This jar file also contains the API documentation in the folder named `doc`.
-
-
+* Option 1: Use a maven, gradle, ivy, etc project and add dependency. [Instructions](https://jitpack.io/#sek/Robot/master-SNAPSHOT)
+* Option 2: Download this [jar file](https://jitpack.io/com/github/sek/Robot/master-SNAPSHOT/Robot-master-SNAPSHOT.jar)
+  and add it to the build path of your project. This jar file also contains the API documentation in the folder named `doc`. 
 
  
 
