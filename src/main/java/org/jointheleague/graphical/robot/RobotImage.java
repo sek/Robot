@@ -26,7 +26,7 @@ public class RobotImage {
 	}
 
 	public static BufferedImage loadRobi(String s) {
-		s = String.format("res/%s.robi", s);
+		s = String.format("/%s.robi", s);
 		BufferedImage img = new BufferedImage(IMG_WIDTH, IMG_HEIGHT,
 				BufferedImage.TYPE_INT_ARGB);
 

@@ -39,7 +39,7 @@ public class RobotWindow extends JPanel {
         winColor = color;
         robotList = new ArrayList<>();
         try {
-            leagueLogo = ImageIO.read(this.getClass().getResourceAsStream("res/league_logo.png"));
+            leagueLogo = ImageIO.read(this.getClass().getResourceAsStream("/league_logo.png"));
         } catch (IOException e) {
             System.err.println("Cannot load background image.");
         }
